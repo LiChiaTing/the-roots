@@ -49,18 +49,9 @@ export const HomeScreen = () => {
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       {/* Header */}
       <View style={styles.header}>
-        <View style={styles.headerLeft}>
-          <TouchableOpacity
-            style={styles.avatar}
-            onPress={() => navigation.navigate('Profile')}
-            activeOpacity={0.8}
-          >
-            <Text style={styles.avatarText}>AC</Text>
-          </TouchableOpacity>
-          <View>
-            <Text style={styles.greeting}>{greeting}</Text>
-            <Text style={styles.headerTitle}>Here's your day</Text>
-          </View>
+        <View>
+          <Text style={styles.greeting}>{greeting}</Text>
+          <Text style={styles.headerTitle}>Here's your day</Text>
         </View>
         <View style={styles.headerBadge}>
           <Ionicons name="leaf-outline" size={14} color={theme.colors.text.inverse} />
@@ -188,28 +179,10 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     padding: theme.layout.screenPadding,
     paddingBottom: theme.spacing.lg,
     backgroundColor: theme.colors.primary.indigo,
-  },
-  headerLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: theme.spacing.md,
-  },
-  avatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: 'rgba(255,255,255,0.25)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  avatarText: {
-    fontFamily: theme.typography.fontFamily.bodySemibold,
-    fontSize: theme.typography.fontSize.sm,
-    color: theme.colors.text.inverse,
   },
   greeting: {
     fontFamily: theme.typography.fontFamily.body,

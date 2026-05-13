@@ -1,4 +1,5 @@
 import React from 'react';
+import { TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
@@ -29,7 +30,18 @@ function HomeNavigator() {
       <HomeStack.Screen
         name="HomeMain"
         component={HomeScreen}
-        options={{ title: 'Home' }}
+        options={({ navigation }) => ({
+          title: 'Home',
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Profile')}
+              style={{ marginRight: 16 }}
+              hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+            >
+              <Ionicons name="person-circle-outline" size={28} color="#fff" />
+            </TouchableOpacity>
+          ),
+        })}
       />
       <HomeStack.Screen
         name="Profile"
