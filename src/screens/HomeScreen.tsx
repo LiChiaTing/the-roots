@@ -5,7 +5,6 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  FlatList,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
@@ -14,15 +13,15 @@ import { mockHomeCards, mockSavedProviders } from '../data/mockServices';
 import { HomeCard, HomeCardUrgency, SavedProvider } from '../types';
 
 const URGENCY_COLORS: Record<HomeCardUrgency, string> = {
-  high: '#C0392B',
-  medium: '#E65100',
-  low: theme.colors.primary.sageGreen,
+  high: theme.colors.semantic.error,
+  medium: theme.colors.accent.gold,
+  low: theme.colors.primary.lavender,
 };
 
 const URGENCY_BG: Record<HomeCardUrgency, string> = {
-  high: '#FDECEA',
-  medium: '#FFF3E0',
-  low: '#F1F8F4',
+  high: theme.colors.semantic.errorBg,
+  medium: theme.colors.semantic.warningBg,
+  low: '#EEF0FF',
 };
 
 const TYPE_ICONS: Record<HomeCard['type'], keyof typeof Ionicons.glyphMap> = {
@@ -50,13 +49,22 @@ export const HomeScreen = () => {
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       {/* Header */}
       <View style={styles.header}>
-        <View>
-          <Text style={styles.greeting}>{greeting}</Text>
-          <Text style={styles.headerTitle}>Here's your day</Text>
+        <View style={styles.headerLeft}>
+          <TouchableOpacity
+            style={styles.avatar}
+            onPress={() => navigation.navigate('Profile')}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.avatarText}>AC</Text>
+          </TouchableOpacity>
+          <View>
+            <Text style={styles.greeting}>{greeting}</Text>
+            <Text style={styles.headerTitle}>Here's your day</Text>
+          </View>
         </View>
         <View style={styles.headerBadge}>
           <Ionicons name="leaf-outline" size={14} color={theme.colors.text.inverse} />
-          <Text style={styles.headerBadgeText}> Stage 1</Text>
+          <Text style={styles.headerBadgeText}>Stage 1</Text>
         </View>
       </View>
 
@@ -75,7 +83,7 @@ export const HomeScreen = () => {
           <ContinueChip
             icon="chatbubble-ellipses-outline"
             label="Ask AI"
-            onPress={() => navigation.navigate('Helper', { screen: 'AI' })}
+            onPress={() => navigation.navigate('Find', { screen: 'AI' })}
           />
           <ContinueChip
             icon="leaf-outline"
@@ -85,7 +93,7 @@ export const HomeScreen = () => {
           <ContinueChip
             icon="map-outline"
             label="Services"
-            onPress={() => navigation.navigate('Guide', { screen: 'Services' })}
+            onPress={() => navigation.navigate('Find', { screen: 'Services' })}
           />
         </View>
       </View>
@@ -135,7 +143,7 @@ function ContinueChip({
 }) {
   return (
     <TouchableOpacity style={styles.continueChip} onPress={onPress}>
-      <Ionicons name={icon} size={22} color={theme.colors.primary.terracotta} />
+      <Ionicons name={icon} size={22} color={theme.colors.primary.indigo} />
       <Text style={styles.continueChipLabel}>{label}</Text>
     </TouchableOpacity>
   );
@@ -150,7 +158,7 @@ function SavedProviderRow({ provider }: { provider: SavedProvider }) {
   return (
     <View style={styles.providerRow}>
       <View style={styles.providerIcon}>
-        <Ionicons name={icon} size={18} color={theme.colors.primary.sageGreen} />
+        <Ionicons name={icon} size={18} color={theme.colors.primary.lavender} />
       </View>
       <View style={styles.providerContent}>
         <Text style={styles.providerName}>{provider.name}</Text>
@@ -180,34 +188,54 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     padding: theme.layout.screenPadding,
     paddingBottom: theme.spacing.lg,
-    backgroundColor: theme.colors.primary.sageGreen,
+    backgroundColor: theme.colors.primary.indigo,
+  },
+  headerLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: theme.spacing.md,
+  },
+  avatar: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: 'rgba(255,255,255,0.25)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  avatarText: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
+    fontSize: theme.typography.fontSize.sm,
+    color: theme.colors.text.inverse,
   },
   greeting: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.sm,
     color: 'rgba(255,255,255,0.8)',
     marginBottom: theme.spacing.xs,
   },
   headerTitle: {
+    fontFamily: theme.typography.fontFamily.display,
     fontSize: theme.typography.fontSize.xxl,
-    fontWeight: theme.typography.fontWeight.bold,
     color: theme.colors.text.inverse,
   },
   headerBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,0.25)',
+    gap: 6,
+    backgroundColor: 'rgba(255,255,255,0.2)',
     borderRadius: theme.borderRadius.full,
     paddingHorizontal: theme.spacing.md,
     paddingVertical: theme.spacing.xs,
     marginTop: theme.spacing.xs,
   },
   headerBadgeText: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     fontSize: theme.typography.fontSize.sm,
     color: theme.colors.text.inverse,
-    fontWeight: theme.typography.fontWeight.semibold,
   },
   section: {
     padding: theme.layout.screenPadding,
@@ -216,8 +244,8 @@ const styles = StyleSheet.create({
     borderBottomColor: theme.colors.border.light,
   },
   sectionTitle: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     fontSize: theme.typography.fontSize.xs,
-    fontWeight: theme.typography.fontWeight.bold,
     color: theme.colors.text.secondary,
     marginBottom: theme.spacing.md,
     textTransform: 'uppercase',
@@ -250,12 +278,13 @@ const styles = StyleSheet.create({
     paddingRight: theme.spacing.sm,
   },
   cardTitle: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     fontSize: theme.typography.fontSize.sm,
-    fontWeight: theme.typography.fontWeight.semibold,
     color: theme.colors.text.primary,
     marginBottom: 2,
   },
   cardSubtitle: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.xs,
     color: theme.colors.text.secondary,
     lineHeight: 16,
@@ -280,8 +309,8 @@ const styles = StyleSheet.create({
     ...theme.shadows.sm,
   },
   continueChipLabel: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     fontSize: theme.typography.fontSize.xs,
-    fontWeight: theme.typography.fontWeight.semibold,
     color: theme.colors.text.secondary,
   },
   providerRow: {
@@ -298,7 +327,7 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: '#F1F8F4',
+    backgroundColor: theme.colors.neutral.lightGray,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -306,16 +335,18 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   providerName: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     fontSize: theme.typography.fontSize.sm,
-    fontWeight: theme.typography.fontWeight.semibold,
     color: theme.colors.text.primary,
   },
   providerMeta: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.xs,
     color: theme.colors.text.secondary,
     marginTop: 2,
   },
   providerSaved: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.xs,
     color: theme.colors.text.tertiary,
   },

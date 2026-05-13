@@ -4,65 +4,64 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../theme/theme';
 
-// Main tab screens
 import { HomeScreen } from '../screens/HomeScreen';
+import { ProfileScreen } from '../screens/ProfileScreen';
 import { JourneyScreen } from '../screens/JourneyScreen';
-import { GuideScreen } from '../screens/GuideScreen';
-import { HelperScreen } from '../screens/HelperScreen';
-import { CirclesScreen } from '../screens/CirclesScreen';
-
-// Nested screens pushed from tabs
+import { FindScreen } from '../screens/FindScreen';
 import { ServicesScreen } from '../screens/ServicesScreen';
 import { AIScreen } from '../screens/AIScreen';
 
-// ─── Stack navigators for Guide and Helper tabs ───────────────────────────────
-const GuideStack = createStackNavigator();
-const HelperStack = createStackNavigator();
+const HomeStack = createStackNavigator();
+const FindStack = createStackNavigator();
 
 const stackHeaderOptions = {
-  headerStyle: { backgroundColor: theme.colors.primary.sageGreen },
+  headerStyle: { backgroundColor: theme.colors.primary.indigo },
   headerTintColor: theme.colors.text.inverse,
   headerTitleStyle: {
-    fontWeight: theme.typography.fontWeight.bold as '700',
+    fontFamily: theme.typography.fontFamily.displaySemibold,
     fontSize: theme.typography.fontSize.lg,
   },
 };
 
-function GuideNavigator() {
+function HomeNavigator() {
   return (
-    <GuideStack.Navigator screenOptions={stackHeaderOptions}>
-      <GuideStack.Screen
-        name="GuideMain"
-        component={GuideScreen}
-        options={{ title: 'The Guide' }}
+    <HomeStack.Navigator screenOptions={stackHeaderOptions}>
+      <HomeStack.Screen
+        name="HomeMain"
+        component={HomeScreen}
+        options={{ title: 'Home' }}
       />
-      <GuideStack.Screen
+      <HomeStack.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{ title: 'My Profile & Settings' }}
+      />
+    </HomeStack.Navigator>
+  );
+}
+
+function FindNavigator() {
+  return (
+    <FindStack.Navigator screenOptions={stackHeaderOptions}>
+      <FindStack.Screen
+        name="FindMain"
+        component={FindScreen}
+        options={{ title: 'Find' }}
+      />
+      <FindStack.Screen
         name="Services"
         component={ServicesScreen}
         options={{ title: 'Local Services' }}
       />
-    </GuideStack.Navigator>
-  );
-}
-
-function HelperNavigator() {
-  return (
-    <HelperStack.Navigator screenOptions={stackHeaderOptions}>
-      <HelperStack.Screen
-        name="HelperMain"
-        component={HelperScreen}
-        options={{ title: 'The Helper' }}
-      />
-      <HelperStack.Screen
+      <FindStack.Screen
         name="AI"
         component={AIScreen}
         options={{ title: 'Ask the Roots AI' }}
       />
-    </HelperStack.Navigator>
+    </FindStack.Navigator>
   );
 }
 
-// ─── Bottom Tab Navigator ─────────────────────────────────────────────────────
 const Tab = createBottomTabNavigator();
 
 export const AppNavigator = () => {
@@ -76,19 +75,15 @@ export const AppNavigator = () => {
             iconName = focused ? 'home' : 'home-outline';
           } else if (route.name === 'Journey') {
             iconName = focused ? 'leaf' : 'leaf-outline';
-          } else if (route.name === 'Guide') {
+          } else if (route.name === 'Find') {
             iconName = focused ? 'compass' : 'compass-outline';
-          } else if (route.name === 'Helper') {
-            iconName = focused ? 'build' : 'build-outline';
-          } else if (route.name === 'Circles') {
-            iconName = focused ? 'people' : 'people-outline';
           } else {
             iconName = 'help-outline';
           }
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: theme.colors.primary.terracotta,
+        tabBarActiveTintColor: theme.colors.primary.indigo,
         tabBarInactiveTintColor: theme.colors.text.secondary,
         tabBarStyle: {
           ...theme.components.tabBar,
@@ -96,23 +91,23 @@ export const AppNavigator = () => {
           borderTopColor: theme.colors.border.light,
         },
         tabBarLabelStyle: {
+          fontFamily: theme.typography.fontFamily.bodyMedium,
           fontSize: theme.typography.fontSize.xs,
-          fontWeight: theme.typography.fontWeight.medium,
         },
         headerStyle: {
-          backgroundColor: theme.colors.primary.sageGreen,
+          backgroundColor: theme.colors.primary.indigo,
         },
         headerTintColor: theme.colors.text.inverse,
         headerTitleStyle: {
-          fontWeight: theme.typography.fontWeight.bold as '700',
+          fontFamily: theme.typography.fontFamily.displaySemibold,
           fontSize: theme.typography.fontSize.lg,
         },
       })}
     >
       <Tab.Screen
         name="Home"
-        component={HomeScreen}
-        options={{ title: 'Home', tabBarLabel: 'Home' }}
+        component={HomeNavigator}
+        options={{ title: 'Home', tabBarLabel: 'Home', headerShown: false }}
       />
       <Tab.Screen
         name="Journey"
@@ -120,19 +115,9 @@ export const AppNavigator = () => {
         options={{ title: 'My Journey', tabBarLabel: 'Journey' }}
       />
       <Tab.Screen
-        name="Guide"
-        component={GuideNavigator}
-        options={{ title: 'The Guide', tabBarLabel: 'Guide', headerShown: false }}
-      />
-      <Tab.Screen
-        name="Helper"
-        component={HelperNavigator}
-        options={{ title: 'The Helper', tabBarLabel: 'Helper', headerShown: false }}
-      />
-      <Tab.Screen
-        name="Circles"
-        component={CirclesScreen}
-        options={{ title: 'Local Circles', tabBarLabel: 'Circles' }}
+        name="Find"
+        component={FindNavigator}
+        options={{ title: 'Find', tabBarLabel: 'Find', headerShown: false }}
       />
     </Tab.Navigator>
   );
