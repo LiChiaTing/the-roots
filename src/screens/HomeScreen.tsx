@@ -49,14 +49,25 @@ export const HomeScreen = () => {
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       {/* Header */}
       <View style={styles.header}>
-        <View>
-          <Text style={styles.greeting}>{greeting}</Text>
-          <Text style={styles.headerTitle}>Here's your day</Text>
+        <View style={styles.headerTop}>
+          <View>
+            <Text style={styles.greeting}>{greeting}</Text>
+            <Text style={styles.headerTitle}>Here's your day</Text>
+          </View>
+          <View style={styles.headerBadge}>
+            <Ionicons name="leaf-outline" size={14} color={theme.colors.text.inverse} />
+            <Text style={styles.headerBadgeText}>Stage 1</Text>
+          </View>
         </View>
-        <View style={styles.headerBadge}>
-          <Ionicons name="leaf-outline" size={14} color={theme.colors.text.inverse} />
-          <Text style={styles.headerBadgeText}>Stage 1</Text>
-        </View>
+        <TouchableOpacity
+          style={styles.settingsRow}
+          onPress={() => navigation.navigate('Profile')}
+          activeOpacity={0.75}
+        >
+          <Ionicons name="person-circle-outline" size={18} color="rgba(255,255,255,0.9)" />
+          <Text style={styles.settingsRowText}>My Profile & Settings</Text>
+          <Ionicons name="chevron-forward" size={14} color="rgba(255,255,255,0.6)" />
+        </TouchableOpacity>
       </View>
 
       {/* Priority cards */}
@@ -177,12 +188,30 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.background.primary,
   },
   header: {
+    padding: theme.layout.screenPadding,
+    paddingBottom: theme.spacing.md,
+    backgroundColor: theme.colors.primary.indigo,
+  },
+  headerTop: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    padding: theme.layout.screenPadding,
-    paddingBottom: theme.spacing.lg,
-    backgroundColor: theme.colors.primary.indigo,
+    marginBottom: theme.spacing.md,
+  },
+  settingsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: theme.spacing.xs,
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    borderRadius: theme.borderRadius.lg,
+    paddingHorizontal: theme.spacing.md,
+    paddingVertical: theme.spacing.sm,
+  },
+  settingsRowText: {
+    flex: 1,
+    fontFamily: theme.typography.fontFamily.bodyMedium,
+    fontSize: theme.typography.fontSize.sm,
+    color: 'rgba(255,255,255,0.9)',
   },
   greeting: {
     fontFamily: theme.typography.fontFamily.body,
