@@ -1,47 +1,185 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView, FlatList } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, FlatList, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
 import { theme } from '../theme/theme';
 import { CalendarEventCard } from '../components/CalendarEventCard';
-import { QuestCard } from '../components/QuestCard';
-import { getCurrentMonthEvents, mockActiveQuests } from '../data/mockData';
-import { CalendarEvent, Quest, ServiceCategory, InsuranceTag } from '../types';
+import {
+  getCurrentMonthEvents,
+  stages,
+  allQuests,
+  getCategoryColor,
+  monthlyAmericanFacts,
+} from '../data/mockData';
+import { CalendarEvent } from '../types';
 
+// ─── American Fact Card ───────────────────────────────────────────────────────
+const AmericanFactCard = ({ month }: { month: number }) => {
+  const fact = monthlyAmericanFacts[month];
+  if (!fact) return null;
+  return (
+    <View style={factStyles.card}>
+      <View style={factStyles.eyebrowRow}>
+        <Ionicons name={fact.icon as any} size={16} color={theme.colors.primary.indigo} />
+        <Text style={factStyles.eyebrow}>Did you know?</Text>
+      </View>
+      <Text style={factStyles.title}>{fact.title}</Text>
+      <Text style={factStyles.body}>{fact.body}</Text>
+    </View>
+  );
+};
+
+const factStyles = StyleSheet.create({
+  card: {
+    marginHorizontal: theme.layout.screenPadding,
+    backgroundColor: theme.colors.background.tertiary,
+    borderRadius: theme.borderRadius.lg,
+    padding: theme.spacing.lg,
+    ...theme.shadows.sm,
+  },
+  eyebrowRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginBottom: theme.spacing.sm,
+  },
+  eyebrow: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
+    fontSize: theme.typography.fontSize.xs,
+    color: theme.colors.primary.indigo,
+    textTransform: 'uppercase',
+    letterSpacing: 0.6,
+  },
+  title: {
+    fontFamily: theme.typography.fontFamily.displaySemibold,
+    fontSize: theme.typography.fontSize.md,
+    color: theme.colors.text.primary,
+    marginBottom: theme.spacing.sm,
+  },
+  body: {
+    fontFamily: theme.typography.fontFamily.body,
+    fontSize: theme.typography.fontSize.sm,
+    color: theme.colors.text.secondary,
+    lineHeight: 20,
+  },
+});
+
+// ─── Main Screen ─────────────────────────────────────────────────────────────
 export const JourneyScreen = () => {
-  const navigation = useNavigation<any>();
+  const [expandedStageId, setExpandedStageId] = useState<number | null>(null);
   const currentMonthEvents = getCurrentMonthEvents();
+  const currentMonth = new Date().getMonth();
 
-  const handleFindService = (category: string, insurance?: string) => {
-    navigation.navigate('Guide', {
-      screen: 'Services',
-      params: {
-        presetCategory: category as ServiceCategory,
-        presetInsurance: insurance as InsuranceTag | undefined,
-      },
-    });
+  const totalQuests = allQuests.length;
+  const completedQuests = allQuests.filter(q => q.status === 'completed').length;
+
+  const toggleStage = (stageId: number) => {
+    setExpandedStageId(prev => (prev === stageId ? null : stageId));
   };
 
   const renderCalendarEvent = ({ item }: { item: CalendarEvent }) => (
     <CalendarEventCard event={item} />
   );
 
-  const renderQuest = ({ item }: { item: Quest }) => (
-    <QuestCard
-      quest={item}
-      onFindService={item.serviceLink ? handleFindService : undefined}
-    />
-  );
-
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      {/* Header */}
       <View style={styles.header}>
         <Text style={styles.title}>My Journey</Text>
-        <Text style={styles.subtitle}>Track your progress and milestones</Text>
+        <Text style={styles.subtitle}>
+          {completedQuests} / {totalQuests} quests completed
+        </Text>
       </View>
 
-      {/* Cultural Calendar Section */}
+      {/* Your Roadmap */}
       <View style={styles.section}>
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>Your Roadmap</Text>
+        </View>
+
+        <View style={styles.stageList}>
+          {stages.map((stage) => {
+            const stageQuests = allQuests.filter(q => stage.questIds.includes(q.id));
+            const doneCount = stageQuests.filter(q => q.status === 'completed').length;
+            const isExpanded = expandedStageId === stage.id;
+
+            return (
+              <View key={stage.id} style={styles.stageCard}>
+                <TouchableOpacity
+                  style={styles.stageRow}
+                  onPress={() => toggleStage(stage.id)}
+                  activeOpacity={0.7}
+                >
+                  <View style={styles.stageIconWrap}>
+                    <Ionicons
+                      name={stage.icon as any}
+                      size={20}
+                      color={theme.colors.primary.indigo}
+                    />
+                  </View>
+                  <View style={styles.stageMeta}>
+                    <View style={styles.stageTitleRow}>
+                      <Text style={styles.stageName}>{stage.title}</Text>
+                      <Text style={styles.stageCount}>{stageQuests.length} quests</Text>
+                    </View>
+                    {/* Progress bar */}
+                    <View style={styles.progressBarTrack}>
+                      <View
+                        style={[
+                          styles.progressBarFill,
+                          { width: `${stageQuests.length > 0 ? (doneCount / stageQuests.length) * 100 : 0}%` },
+                        ]}
+                      />
+                    </View>
+                    <Text style={styles.progressLabel}>
+                      {doneCount}/{stageQuests.length} done
+                    </Text>
+                  </View>
+                  <Ionicons
+                    name={isExpanded ? 'chevron-up' : 'chevron-down'}
+                    size={18}
+                    color={theme.colors.text.tertiary}
+                  />
+                </TouchableOpacity>
+
+                {/* Expanded quest list */}
+                {isExpanded && (
+                  <View style={styles.questList}>
+                    {stageQuests.map((quest) => (
+                      <View key={quest.id} style={styles.questRow}>
+                        <View
+                          style={[
+                            styles.categoryDot,
+                            { backgroundColor: getCategoryColor(quest.category) },
+                          ]}
+                        />
+                        <Text
+                          style={[
+                            styles.questTitle,
+                            quest.status === 'completed' && styles.questTitleDone,
+                          ]}
+                          numberOfLines={1}
+                        >
+                          {quest.title}
+                        </Text>
+                        {quest.status === 'completed' && (
+                          <Ionicons
+                            name="checkmark-circle"
+                            size={16}
+                            color={theme.colors.semantic.success}
+                          />
+                        )}
+                      </View>
+                    ))}
+                  </View>
+                )}
+              </View>
+            );
+          })}
+        </View>
+      </View>
+
+      {/* The American Rhythm — bottom */}
+      <View style={[styles.section, styles.lastSection]}>
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>The American Rhythm</Text>
           <Text style={styles.sectionSubtitle}>
@@ -49,73 +187,18 @@ export const JourneyScreen = () => {
           </Text>
         </View>
 
-        <FlatList
-          data={currentMonthEvents}
-          renderItem={renderCalendarEvent}
-          keyExtractor={(item) => item.id}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.calendarList}
-          ListEmptyComponent={
-            <View style={styles.emptyState}>
-              <Text style={styles.emptyStateText}>No events this month</Text>
-            </View>
-          }
-        />
-      </View>
-
-      {/* Active Quests Section */}
-      <View style={styles.section}>
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Active Quests</Text>
-          <Text style={styles.sectionSubtitle}>
-            {mockActiveQuests.length} in progress
-          </Text>
-        </View>
-
-        <FlatList
-          data={mockActiveQuests}
-          renderItem={renderQuest}
-          keyExtractor={(item) => item.id}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.questsList}
-          ListEmptyComponent={
-            <View style={styles.emptyState}>
-              <Text style={styles.emptyStateText}>No active quests — tap a stage to start</Text>
-            </View>
-          }
-        />
-      </View>
-
-      {/* Milestone Library Preview */}
-      <View style={styles.section}>
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Milestone Library</Text>
-          <Text style={styles.sectionSubtitle}>Your growth path</Text>
-        </View>
-
-        <View style={styles.milestonePreview}>
-          {[
-            { icon: 'leaf-outline' as const, title: 'Level 1: Land Safely', desc: 'First 14 days', active: true },
-            { icon: 'layers-outline' as const, title: 'Level 2: Get Stable', desc: 'Month 1–3', active: true },
-            { icon: 'library-outline' as const, title: 'Level 3: Build Foundation', desc: 'Month 3–12', active: false },
-            { icon: 'flag-outline' as const, title: 'Level 4: Root', desc: 'Year 1+', active: false },
-          ].map((m) => (
-            <View key={m.title} style={styles.milestoneItem}>
-              <View style={[styles.milestoneIcon, m.active && styles.milestoneActive]}>
-                <Ionicons
-                  name={m.icon}
-                  size={22}
-                  color={m.active ? theme.colors.text.primary : theme.colors.text.tertiary}
-                />
-              </View>
-              <View style={styles.milestoneMeta}>
-                <Text style={styles.milestoneTitle}>{m.title}</Text>
-                <Text style={styles.milestoneDesc}>{m.desc}</Text>
-              </View>
-            </View>
-          ))}
-        </View>
+        {currentMonthEvents.length > 0 ? (
+          <FlatList
+            data={currentMonthEvents}
+            renderItem={renderCalendarEvent}
+            keyExtractor={(item) => item.id}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.calendarList}
+          />
+        ) : (
+          <AmericanFactCard month={currentMonth} />
+        )}
       </View>
     </ScrollView>
   );
@@ -131,18 +214,21 @@ const styles = StyleSheet.create({
     paddingBottom: theme.spacing.lg,
   },
   title: {
+    fontFamily: theme.typography.fontFamily.display,
     fontSize: theme.typography.fontSize.xxl,
-    fontWeight: theme.typography.fontWeight.bold,
     color: theme.colors.text.primary,
-    marginBottom: theme.spacing.sm,
+    marginBottom: theme.spacing.xs,
   },
   subtitle: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.md,
     color: theme.colors.text.secondary,
-    marginBottom: theme.spacing.xl,
   },
   section: {
     marginBottom: theme.spacing.xxl,
+  },
+  lastSection: {
+    marginBottom: theme.spacing.xxxl ?? 48,
   },
   sectionHeader: {
     flexDirection: 'row',
@@ -152,67 +238,108 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.md,
   },
   sectionTitle: {
+    fontFamily: theme.typography.fontFamily.displaySemibold,
     fontSize: theme.typography.fontSize.lg,
-    fontWeight: theme.typography.fontWeight.bold,
     color: theme.colors.text.primary,
   },
   sectionSubtitle: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.sm,
     color: theme.colors.text.secondary,
   },
-  calendarList: {
+  // Stage list
+  stageList: {
     paddingHorizontal: theme.layout.screenPadding,
+    gap: theme.spacing.sm,
   },
-  questsList: {
-    paddingHorizontal: theme.layout.screenPadding,
-  },
-  emptyState: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: theme.spacing.xl,
-  },
-  emptyStateText: {
-    fontSize: theme.typography.fontSize.md,
-    color: theme.colors.text.secondary,
-    textAlign: 'center',
-  },
-  milestonePreview: {
-    paddingHorizontal: theme.layout.screenPadding,
-  },
-  milestoneItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  stageCard: {
     backgroundColor: theme.colors.background.secondary,
     borderRadius: theme.borderRadius.lg,
-    padding: theme.spacing.md,
-    marginBottom: theme.spacing.sm,
+    overflow: 'hidden',
     ...theme.shadows.sm,
   },
-  milestoneIcon: {
+  stageRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: theme.spacing.md,
+    gap: theme.spacing.md,
+  },
+  stageIconWrap: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: theme.colors.neutral.lightGray,
+    backgroundColor: theme.colors.primary.lavenderLight,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: theme.spacing.md,
-    opacity: 0.5,
   },
-  milestoneActive: {
-    backgroundColor: theme.colors.primary.sageGreenLight,
-    opacity: 1,
-  },
-  milestoneMeta: {
+  stageMeta: {
     flex: 1,
   },
-  milestoneTitle: {
+  stageTitleRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 6,
+  },
+  stageName: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     fontSize: theme.typography.fontSize.md,
-    fontWeight: theme.typography.fontWeight.semibold,
     color: theme.colors.text.primary,
   },
-  milestoneDesc: {
+  stageCount: {
+    fontFamily: theme.typography.fontFamily.body,
+    fontSize: theme.typography.fontSize.xs,
+    color: theme.colors.text.tertiary,
+  },
+  progressBarTrack: {
+    height: 4,
+    backgroundColor: theme.colors.neutral.lightGray,
+    borderRadius: 2,
+    marginBottom: 4,
+    overflow: 'hidden',
+  },
+  progressBarFill: {
+    height: '100%',
+    backgroundColor: theme.colors.primary.indigo,
+    borderRadius: 2,
+  },
+  progressLabel: {
+    fontFamily: theme.typography.fontFamily.body,
+    fontSize: theme.typography.fontSize.xs,
+    color: theme.colors.text.tertiary,
+  },
+  // Quest sub-list
+  questList: {
+    borderTopWidth: 1,
+    borderTopColor: theme.colors.neutral.lightGray,
+    paddingHorizontal: theme.spacing.md,
+    paddingBottom: theme.spacing.sm,
+    paddingTop: theme.spacing.xs,
+  },
+  questRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 8,
+    gap: 10,
+  },
+  categoryDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    flexShrink: 0,
+  },
+  questTitle: {
+    flex: 1,
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.sm,
-    color: theme.colors.text.secondary,
-    marginTop: 2,
+    color: theme.colors.text.primary,
+  },
+  questTitleDone: {
+    color: theme.colors.text.tertiary,
+    textDecorationLine: 'line-through',
+  },
+  // Calendar
+  calendarList: {
+    paddingHorizontal: theme.layout.screenPadding,
   },
 });
