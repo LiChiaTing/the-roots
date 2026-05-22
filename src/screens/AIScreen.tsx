@@ -103,7 +103,6 @@ export const AIScreen = () => {
     setInput('');
     setIsTyping(true);
 
-    // Simulate RAG response delay
     setTimeout(() => {
       const mockData = getMockResponse(userMsg.content);
       const assistantMsg: AIMessage = {
@@ -135,7 +134,7 @@ export const AIScreen = () => {
     >
       {/* Disclaimer banner */}
       <View style={styles.disclaimer}>
-        <Ionicons name="shield-outline" size={14} color={theme.colors.primary.sageGreen} />
+        <Ionicons name="shield-outline" size={14} color={theme.colors.primary.lavender} />
         <Text style={styles.disclaimerText}>
           For general guidance only · Not legal or medical advice
         </Text>
@@ -201,14 +200,13 @@ function MessageBubble({
       <View style={styles.aiBubble}>
         {message.isHighRisk && (
           <View style={styles.highRiskBanner}>
-            <Ionicons name="alert-circle-outline" size={14} color='#E65100' />
+            <Ionicons name="alert-circle-outline" size={14} color={theme.colors.accent.goldDark} />
             <Text style={styles.highRiskText}>Sensitive topic — consult a licensed professional</Text>
           </View>
         )}
 
         <Text style={styles.aiBubbleText}>{message.content}</Text>
 
-        {/* Citations */}
         {message.citations && message.citations.length > 0 && (
           <View style={styles.citationsSection}>
             <Text style={styles.citationsLabel}>Sources</Text>
@@ -218,7 +216,6 @@ function MessageBubble({
           </View>
         )}
 
-        {/* Suggested actions */}
         {message.suggestedActions && message.suggestedActions.length > 0 && (
           <View style={styles.actionsSection}>
             {message.suggestedActions.map((a, i) => (
@@ -227,7 +224,6 @@ function MessageBubble({
           </View>
         )}
 
-        {/* Feedback row */}
         {!message.feedback && (
           <View style={styles.feedbackRow}>
             <Text style={styles.feedbackLabel}>Was this helpful?</Text>
@@ -256,7 +252,7 @@ function CitationCard({ citation }: { citation: AICitation }) {
       style={styles.citationCard}
       onPress={() => Linking.openURL(citation.url)}
     >
-      <Ionicons name="link-outline" size={13} color={theme.colors.primary.sageGreen} />
+      <Ionicons name="link-outline" size={13} color={theme.colors.primary.lavender} />
       <View style={styles.citationText}>
         <Text style={styles.citationTitle} numberOfLines={1}>{citation.title}</Text>
         <Text style={styles.citationSource}>{citation.source}</Text>
@@ -274,7 +270,7 @@ function SuggestedActionChip({ action }: { action: AISuggestedAction }) {
 
   return (
     <TouchableOpacity style={styles.actionChip}>
-      <Ionicons name={icon} size={14} color={theme.colors.primary.terracotta} />
+      <Ionicons name={icon} size={14} color={theme.colors.primary.indigo} />
       <Text style={styles.actionChipText}>{action.label}</Text>
     </TouchableOpacity>
   );
@@ -299,16 +295,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    backgroundColor: '#F1F8F4',
+    backgroundColor: theme.colors.semantic.infoBg,
     paddingHorizontal: theme.layout.screenPadding,
     paddingVertical: theme.spacing.sm,
     borderBottomWidth: 1,
     borderBottomColor: theme.colors.border.light,
   },
   disclaimerText: {
+    fontFamily: theme.typography.fontFamily.bodyMedium,
     fontSize: theme.typography.fontSize.xs,
-    color: theme.colors.primary.sageGreen,
-    fontWeight: theme.typography.fontWeight.medium,
+    color: theme.colors.primary.lavender,
   },
   messageList: {
     flex: 1,
@@ -321,13 +317,14 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   userBubble: {
-    backgroundColor: theme.colors.primary.terracotta,
+    backgroundColor: theme.colors.primary.indigo,
     borderRadius: 18,
     borderBottomRightRadius: 4,
     padding: theme.spacing.md,
     maxWidth: '80%',
   },
   userBubbleText: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.md,
     color: theme.colors.text.inverse,
     lineHeight: 22,
@@ -347,18 +344,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    backgroundColor: '#FFF3E0',
+    backgroundColor: theme.colors.semantic.warningBg,
     borderRadius: theme.borderRadius.sm,
     padding: theme.spacing.sm,
     marginBottom: theme.spacing.sm,
   },
   highRiskText: {
+    fontFamily: theme.typography.fontFamily.bodyMedium,
     fontSize: theme.typography.fontSize.xs,
-    color: '#E65100',
-    fontWeight: theme.typography.fontWeight.medium,
+    color: theme.colors.accent.goldDark,
     flex: 1,
   },
   aiBubbleText: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.md,
     color: theme.colors.text.primary,
     lineHeight: 22,
@@ -368,8 +366,8 @@ const styles = StyleSheet.create({
     gap: theme.spacing.xs,
   },
   citationsLabel: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     fontSize: theme.typography.fontSize.xs,
-    fontWeight: theme.typography.fontWeight.semibold,
     color: theme.colors.text.secondary,
     textTransform: 'uppercase',
     letterSpacing: 0.5,
@@ -379,21 +377,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    backgroundColor: '#F1F8F4',
+    backgroundColor: theme.colors.semantic.infoBg,
     borderRadius: theme.borderRadius.sm,
     padding: theme.spacing.sm,
     borderWidth: 1,
-    borderColor: '#C8E6C9',
+    borderColor: theme.colors.border.medium,
   },
   citationText: {
     flex: 1,
   },
   citationTitle: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     fontSize: theme.typography.fontSize.xs,
-    fontWeight: theme.typography.fontWeight.semibold,
     color: theme.colors.text.primary,
   },
   citationSource: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: 10,
     color: theme.colors.text.tertiary,
     marginTop: 1,
@@ -408,17 +407,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 5,
-    backgroundColor: '#FFF8F5',
+    backgroundColor: theme.colors.semantic.infoBg,
     borderWidth: 1,
-    borderColor: '#E6935A',
+    borderColor: theme.colors.primary.indigoLight,
     borderRadius: theme.borderRadius.full,
     paddingHorizontal: theme.spacing.md,
     paddingVertical: theme.spacing.xs,
   },
   actionChipText: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     fontSize: theme.typography.fontSize.xs,
-    color: theme.colors.primary.terracotta,
-    fontWeight: theme.typography.fontWeight.semibold,
+    color: theme.colors.primary.indigo,
   },
   feedbackRow: {
     flexDirection: 'row',
@@ -430,6 +429,7 @@ const styles = StyleSheet.create({
     borderTopColor: theme.colors.border.light,
   },
   feedbackLabel: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.xs,
     color: theme.colors.text.secondary,
     flex: 1,
@@ -438,6 +438,7 @@ const styles = StyleSheet.create({
     padding: theme.spacing.xs,
   },
   feedbackDone: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.xs,
     color: theme.colors.text.secondary,
     marginTop: theme.spacing.sm,
@@ -447,6 +448,7 @@ const styles = StyleSheet.create({
     paddingVertical: theme.spacing.md,
   },
   typingDots: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.lg,
     color: theme.colors.text.secondary,
     letterSpacing: 4,
@@ -462,6 +464,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.background.secondary,
   },
   input: {
+    fontFamily: theme.typography.fontFamily.body,
     flex: 1,
     backgroundColor: theme.colors.background.primary,
     borderRadius: theme.borderRadius.full,
@@ -477,7 +480,7 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: theme.colors.primary.terracotta,
+    backgroundColor: theme.colors.primary.indigo,
     justifyContent: 'center',
     alignItems: 'center',
   },

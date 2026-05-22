@@ -62,7 +62,6 @@ export const ServicesScreen = ({ route }: ServicesScreenProps) => {
       {/* Filter bar */}
       <View style={styles.filterSection}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.filterRow}>
-          {/* Walk-in toggle */}
           <TouchableOpacity
             style={[styles.filterChip, walkInOnly && styles.filterChipActive]}
             onPress={() => setWalkInOnly(!walkInOnly)}
@@ -72,7 +71,6 @@ export const ServicesScreen = ({ route }: ServicesScreenProps) => {
             </Text>
           </TouchableOpacity>
 
-          {/* Category filters */}
           {CATEGORY_OPTIONS.map((cat) => (
             <TouchableOpacity
               key={cat}
@@ -91,7 +89,6 @@ export const ServicesScreen = ({ route }: ServicesScreenProps) => {
           ))}
         </ScrollView>
 
-        {/* Insurance filter row */}
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.filterRow}>
           {INSURANCE_OPTIONS.map((ins) => (
             <TouchableOpacity
@@ -106,7 +103,7 @@ export const ServicesScreen = ({ route }: ServicesScreenProps) => {
           ))}
           {hasActiveFilters && (
             <TouchableOpacity style={styles.clearChip} onPress={clearFilters}>
-              <Ionicons name="close-circle" size={14} color={theme.colors.primary.terracotta} />
+              <Ionicons name="close-circle" size={14} color={theme.colors.primary.indigo} />
               <Text style={styles.clearChipText}>Clear</Text>
             </TouchableOpacity>
           )}
@@ -160,13 +157,12 @@ function ServiceCard({ listing }: { listing: ServiceListing }) {
 
   return (
     <View style={styles.card}>
-      {/* Header row */}
       <View style={styles.cardHeader}>
         <View style={styles.cardTitleRow}>
           <Ionicons
             name={SERVICE_CATEGORY_IONICONS[listing.category]}
             size={22}
-            color={theme.colors.primary.terracotta}
+            color={theme.colors.primary.indigo}
           />
           <View style={styles.cardTitleBlock}>
             <Text style={styles.cardTitle}>{listing.name}</Text>
@@ -182,19 +178,16 @@ function ServiceCard({ listing }: { listing: ServiceListing }) {
 
       <Text style={styles.description} numberOfLines={2}>{listing.description}</Text>
 
-      {/* Address */}
       <View style={styles.metaRow}>
         <Ionicons name="location-outline" size={14} color={theme.colors.text.secondary} />
         <Text style={styles.metaText}>{listing.address}</Text>
       </View>
 
-      {/* Languages */}
       <View style={styles.metaRow}>
         <Ionicons name="chatbubble-outline" size={14} color={theme.colors.text.secondary} />
         <Text style={styles.metaText}>{listing.languages.slice(0, 3).join(' · ')}</Text>
       </View>
 
-      {/* Insurance tags */}
       {listing.insuranceAccepted.length > 0 && (
         <View style={styles.tagsRow}>
           {listing.insuranceAccepted.map((tag) => (
@@ -205,10 +198,9 @@ function ServiceCard({ listing }: { listing: ServiceListing }) {
         </View>
       )}
 
-      {/* Footer: provenance + actions */}
       <View style={styles.cardFooter}>
         <TouchableOpacity style={styles.provenanceRow} onPress={handleSource}>
-          <Ionicons name="shield-checkmark-outline" size={13} color={theme.colors.primary.sageGreen} />
+          <Ionicons name="shield-checkmark-outline" size={13} color={theme.colors.primary.lavender} />
           <Text style={styles.provenanceText}>{verifiedLabel}</Text>
           <Ionicons name="open-outline" size={11} color={theme.colors.text.tertiary} />
         </TouchableOpacity>
@@ -251,15 +243,16 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.background.primary,
   },
   filterChipActive: {
-    backgroundColor: theme.colors.primary.terracotta,
-    borderColor: theme.colors.primary.terracotta,
+    backgroundColor: theme.colors.primary.indigo,
+    borderColor: theme.colors.primary.indigo,
   },
   filterChipText: {
+    fontFamily: theme.typography.fontFamily.bodyMedium,
     fontSize: theme.typography.fontSize.sm,
     color: theme.colors.text.secondary,
-    fontWeight: theme.typography.fontWeight.medium,
   },
   filterChipTextActive: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     color: theme.colors.text.inverse,
   },
   clearChip: {
@@ -270,9 +263,9 @@ const styles = StyleSheet.create({
     paddingVertical: theme.spacing.xs,
   },
   clearChipText: {
+    fontFamily: theme.typography.fontFamily.bodyMedium,
     fontSize: theme.typography.fontSize.sm,
-    color: theme.colors.primary.terracotta,
-    fontWeight: theme.typography.fontWeight.medium,
+    color: theme.colors.primary.indigo,
   },
   resultsHeader: {
     flexDirection: 'row',
@@ -282,11 +275,12 @@ const styles = StyleSheet.create({
     paddingVertical: theme.spacing.sm,
   },
   resultsCount: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     fontSize: theme.typography.fontSize.sm,
-    fontWeight: theme.typography.fontWeight.semibold,
     color: theme.colors.text.primary,
   },
   resultsNote: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.xs,
     color: theme.colors.text.tertiary,
   },
@@ -316,30 +310,31 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   cardTitle: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     fontSize: theme.typography.fontSize.md,
-    fontWeight: theme.typography.fontWeight.semibold,
     color: theme.colors.text.primary,
     marginBottom: 2,
   },
   categoryLabel: {
+    fontFamily: theme.typography.fontFamily.bodyMedium,
     fontSize: theme.typography.fontSize.xs,
     color: theme.colors.text.secondary,
     textTransform: 'uppercase',
     letterSpacing: 0.5,
-    fontWeight: theme.typography.fontWeight.medium,
   },
   walkInBadge: {
-    backgroundColor: '#E8F5E9',
+    backgroundColor: theme.colors.semantic.successBg,
     borderRadius: theme.borderRadius.sm,
     paddingHorizontal: theme.spacing.sm,
     paddingVertical: 2,
   },
   walkInText: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     fontSize: theme.typography.fontSize.xs,
-    color: '#2E7D32',
-    fontWeight: theme.typography.fontWeight.semibold,
+    color: theme.colors.semantic.success,
   },
   description: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.sm,
     color: theme.colors.text.secondary,
     lineHeight: 20,
@@ -352,6 +347,7 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.xs,
   },
   metaText: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.sm,
     color: theme.colors.text.secondary,
     flex: 1,
@@ -364,15 +360,15 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.sm,
   },
   insuranceTag: {
-    backgroundColor: '#FFF3E0',
+    backgroundColor: theme.colors.semantic.infoBg,
     borderRadius: theme.borderRadius.sm,
     paddingHorizontal: theme.spacing.sm,
     paddingVertical: 2,
   },
   insuranceTagText: {
+    fontFamily: theme.typography.fontFamily.bodyMedium,
     fontSize: theme.typography.fontSize.xs,
-    color: theme.colors.primary.terracotta,
-    fontWeight: theme.typography.fontWeight.medium,
+    color: theme.colors.primary.indigo,
   },
   cardFooter: {
     flexDirection: 'row',
@@ -389,23 +385,23 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   provenanceText: {
+    fontFamily: theme.typography.fontFamily.bodyMedium,
     fontSize: theme.typography.fontSize.xs,
-    color: theme.colors.primary.sageGreen,
-    fontWeight: theme.typography.fontWeight.medium,
+    color: theme.colors.primary.lavender,
   },
   callButton: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    backgroundColor: theme.colors.primary.terracotta,
+    backgroundColor: theme.colors.primary.indigo,
     borderRadius: theme.borderRadius.full,
     paddingHorizontal: theme.spacing.md,
     paddingVertical: theme.spacing.xs,
   },
   callButtonText: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     fontSize: theme.typography.fontSize.sm,
     color: theme.colors.text.inverse,
-    fontWeight: theme.typography.fontWeight.semibold,
   },
   emptyState: {
     alignItems: 'center',
@@ -413,14 +409,14 @@ const styles = StyleSheet.create({
     gap: theme.spacing.sm,
   },
   emptyTitle: {
+    fontFamily: theme.typography.fontFamily.bodyMedium,
     fontSize: theme.typography.fontSize.md,
     color: theme.colors.text.secondary,
-    fontWeight: theme.typography.fontWeight.medium,
   },
   emptyAction: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     fontSize: theme.typography.fontSize.md,
-    color: theme.colors.primary.terracotta,
-    fontWeight: theme.typography.fontWeight.semibold,
+    color: theme.colors.primary.indigo,
     marginTop: theme.spacing.sm,
   },
 });

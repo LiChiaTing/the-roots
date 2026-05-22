@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-nati
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../theme/theme';
-import { ServicesScreen } from './ServicesScreen';
 
 const doctors = [
   {
@@ -34,34 +33,86 @@ export const GuideScreen = () => {
 
   return (
     <View style={styles.container}>
-      {/* Segment tabs */}
       <View style={styles.segmentBar}>
         <TouchableOpacity
           style={[styles.segmentButton, activeTab === 'doctors' && styles.segmentButtonActive]}
           onPress={() => setActiveTab('doctors')}
         >
-          <Text style={[styles.segmentText, activeTab === 'doctors' && styles.segmentTextActive]}>
-            🩺 Doctors
-          </Text>
+          <View style={styles.segmentInner}>
+            <Ionicons
+              name="medical-outline"
+              size={16}
+              color={activeTab === 'doctors' ? theme.colors.primary.indigo : theme.colors.text.secondary}
+            />
+            <Text style={[styles.segmentText, activeTab === 'doctors' && styles.segmentTextActive]}>
+              Doctors
+            </Text>
+          </View>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.segmentButton, activeTab === 'services' && styles.segmentButtonActive]}
           onPress={() => setActiveTab('services')}
         >
-          <Text style={[styles.segmentText, activeTab === 'services' && styles.segmentTextActive]}>
-            📍 Services
-          </Text>
+          <View style={styles.segmentInner}>
+            <Ionicons
+              name="location-outline"
+              size={16}
+              color={activeTab === 'services' ? theme.colors.primary.indigo : theme.colors.text.secondary}
+            />
+            <Text style={[styles.segmentText, activeTab === 'services' && styles.segmentTextActive]}>
+              Services
+            </Text>
+          </View>
         </TouchableOpacity>
       </View>
 
       {activeTab === 'doctors' ? (
         <DoctorsPanel navigation={navigation} />
       ) : (
-        <ServicesScreen />
+        <ServicesPanel navigation={navigation} />
       )}
     </View>
   );
 };
+
+function ServicesPanel({ navigation }: { navigation: any }) {
+  const serviceCategories = [
+    { id: 'medical', icon: 'medkit-outline' as const, label: 'Clinics' },
+    { id: 'legal', icon: 'briefcase-outline' as const, label: 'Legal Aid' },
+    { id: 'food', icon: 'restaurant-outline' as const, label: 'Food Banks' },
+    { id: 'housing', icon: 'home-outline' as const, label: 'Housing' },
+  ];
+
+  return (
+    <ScrollView style={styles.scrollContainer} contentContainerStyle={styles.content}>
+      <Text style={styles.title}>Local Services</Text>
+      <Text style={styles.subtitle}>Clinics, legal aid, food banks & more</Text>
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12, marginBottom: 24 }}>
+        {serviceCategories.map((cat) => (
+          <TouchableOpacity
+            key={cat.id}
+            style={[styles.helperCard, { width: '47%' }]}
+            onPress={() => navigation.navigate('Services')}
+          >
+            <Ionicons name={cat.icon} size={24} color={theme.colors.primary.indigo} />
+            <Text style={styles.helperTitle}>{cat.label}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+      <TouchableOpacity
+        style={styles.servicesPromoBanner}
+        onPress={() => navigation.navigate('Services')}
+      >
+        <Ionicons name="map-outline" size={20} color={theme.colors.primary.indigo} />
+        <View style={styles.servicesBannerText}>
+          <Text style={styles.servicesBannerTitle}>Browse the full directory</Text>
+          <Text style={styles.servicesBannerSub}>All verified local services near you</Text>
+        </View>
+        <Ionicons name="chevron-forward" size={18} color={theme.colors.primary.indigo} />
+      </TouchableOpacity>
+    </ScrollView>
+  );
+}
 
 function DoctorsPanel({ navigation }: { navigation: any }) {
   return (
@@ -69,7 +120,6 @@ function DoctorsPanel({ navigation }: { navigation: any }) {
       <Text style={styles.title}>Health Navigator</Text>
       <Text style={styles.subtitle}>Language-friendly doctors near you</Text>
 
-      {/* Filter chip */}
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionTitle}>Nearby Doctors</Text>
         <TouchableOpacity style={styles.actionChip}>
@@ -99,7 +149,6 @@ function DoctorsPanel({ navigation }: { navigation: any }) {
         </View>
       ))}
 
-      {/* Translation helpers */}
       <Text style={[styles.sectionTitle, { marginTop: theme.spacing.lg, marginBottom: theme.spacing.md }]}>
         Translation Helpers
       </Text>
@@ -120,17 +169,16 @@ function DoctorsPanel({ navigation }: { navigation: any }) {
         </View>
       </View>
 
-      {/* CTA to Services */}
       <TouchableOpacity
         style={styles.servicesPromoBanner}
         onPress={() => navigation.navigate('Services')}
       >
-        <Ionicons name="map-outline" size={20} color={theme.colors.primary.terracotta} />
+        <Ionicons name="map-outline" size={20} color={theme.colors.primary.indigo} />
         <View style={styles.servicesBannerText}>
           <Text style={styles.servicesBannerTitle}>Looking for clinics, legal aid, food banks?</Text>
-          <Text style={styles.servicesBannerSub}>Browse the full local directory →</Text>
+          <Text style={styles.servicesBannerSub}>Browse the full local directory.</Text>
         </View>
-        <Ionicons name="chevron-forward" size={18} color={theme.colors.primary.terracotta} />
+        <Ionicons name="chevron-forward" size={18} color={theme.colors.primary.indigo} />
       </TouchableOpacity>
     </ScrollView>
   );
@@ -152,20 +200,26 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: theme.spacing.sm,
     alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: theme.borderRadius.md,
+  },
+  segmentInner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
   },
   segmentButtonActive: {
     backgroundColor: theme.colors.background.primary,
     ...theme.shadows.sm,
   },
   segmentText: {
+    fontFamily: theme.typography.fontFamily.bodyMedium,
     fontSize: theme.typography.fontSize.sm,
-    fontWeight: theme.typography.fontWeight.medium,
     color: theme.colors.text.secondary,
   },
   segmentTextActive: {
-    color: theme.colors.text.primary,
-    fontWeight: theme.typography.fontWeight.semibold,
+    fontFamily: theme.typography.fontFamily.bodySemibold,
+    color: theme.colors.primary.indigo,
   },
   scrollContainer: {
     flex: 1,
@@ -174,12 +228,13 @@ const styles = StyleSheet.create({
     padding: theme.layout.screenPadding,
   },
   title: {
+    fontFamily: theme.typography.fontFamily.display,
     fontSize: theme.typography.fontSize.xxl,
-    fontWeight: theme.typography.fontWeight.bold,
     color: theme.colors.text.primary,
     marginBottom: theme.spacing.xs,
   },
   subtitle: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.md,
     color: theme.colors.text.secondary,
     marginBottom: theme.spacing.xl,
@@ -191,22 +246,22 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.md,
   },
   sectionTitle: {
+    fontFamily: theme.typography.fontFamily.displaySemibold,
     fontSize: theme.typography.fontSize.lg,
-    fontWeight: theme.typography.fontWeight.bold,
     color: theme.colors.text.primary,
   },
   actionChip: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: theme.colors.primary.terracotta,
+    backgroundColor: theme.colors.primary.indigo,
     borderRadius: theme.borderRadius.full,
     paddingHorizontal: theme.spacing.md,
     paddingVertical: theme.spacing.xs,
     gap: theme.spacing.xs,
   },
   actionChipText: {
+    fontFamily: theme.typography.fontFamily.bodyMedium,
     color: theme.colors.text.inverse,
-    fontWeight: theme.typography.fontWeight.medium,
     fontSize: theme.typography.fontSize.sm,
   },
   card: {
@@ -223,16 +278,18 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.xs,
   },
   cardTitle: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     fontSize: theme.typography.fontSize.lg,
-    fontWeight: theme.typography.fontWeight.semibold,
     color: theme.colors.text.primary,
   },
   cardSubtitle: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.md,
     color: theme.colors.text.secondary,
     marginBottom: theme.spacing.xs,
   },
   cardMeta: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.sm,
     color: theme.colors.text.secondary,
     marginBottom: theme.spacing.xs,
@@ -246,26 +303,26 @@ const styles = StyleSheet.create({
   badge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: theme.colors.primary.sageGreen,
+    backgroundColor: theme.colors.accent.gold,
     paddingHorizontal: theme.spacing.sm,
     paddingVertical: theme.spacing.xs,
     borderRadius: theme.borderRadius.full,
     gap: 4,
   },
   badgeText: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     color: theme.colors.text.inverse,
-    fontWeight: theme.typography.fontWeight.semibold,
     fontSize: theme.typography.fontSize.xs,
   },
   primaryButton: {
-    backgroundColor: theme.colors.primary.terracotta,
+    backgroundColor: theme.colors.primary.indigo,
     paddingHorizontal: theme.spacing.lg,
     paddingVertical: theme.spacing.sm,
     borderRadius: theme.borderRadius.full,
   },
   primaryButtonText: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     color: theme.colors.text.inverse,
-    fontWeight: theme.typography.fontWeight.semibold,
     fontSize: theme.typography.fontSize.sm,
   },
   helperRow: {
@@ -281,35 +338,36 @@ const styles = StyleSheet.create({
     ...theme.shadows.sm,
   },
   helperTitle: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     fontSize: theme.typography.fontSize.md,
-    fontWeight: theme.typography.fontWeight.semibold,
     color: theme.colors.text.primary,
     marginBottom: theme.spacing.xs,
   },
   helperDesc: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.sm,
     color: theme.colors.text.secondary,
     marginBottom: theme.spacing.sm,
   },
   secondaryButton: {
     alignSelf: 'flex-start',
-    borderColor: theme.colors.primary.terracotta,
+    borderColor: theme.colors.primary.indigo,
     borderWidth: 1,
     borderRadius: theme.borderRadius.full,
     paddingHorizontal: theme.spacing.md,
     paddingVertical: theme.spacing.xs,
   },
   secondaryButtonText: {
-    color: theme.colors.primary.terracotta,
-    fontWeight: theme.typography.fontWeight.semibold,
+    fontFamily: theme.typography.fontFamily.bodySemibold,
+    color: theme.colors.primary.indigo,
     fontSize: theme.typography.fontSize.sm,
   },
   servicesPromoBanner: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FFF8F5',
+    backgroundColor: theme.colors.semantic.infoBg,
     borderWidth: 1,
-    borderColor: '#E6935A',
+    borderColor: theme.colors.primary.indigoLight,
     borderRadius: theme.borderRadius.lg,
     padding: theme.spacing.md,
     gap: theme.spacing.sm,
@@ -318,13 +376,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   servicesBannerTitle: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     fontSize: theme.typography.fontSize.sm,
-    fontWeight: theme.typography.fontWeight.semibold,
     color: theme.colors.text.primary,
   },
   servicesBannerSub: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.xs,
-    color: theme.colors.primary.terracotta,
+    color: theme.colors.primary.indigo,
     marginTop: 2,
   },
 });

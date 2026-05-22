@@ -1,78 +1,81 @@
 export const colors = {
-  // Primary Colors - Warm Earthy Palette
+  // Brand — Soft Indigo
   primary: {
-    terracotta: '#D2691E',      // Warm terracotta orange
-    terracottaLight: '#E6935A', // Lighter terracotta
-    terracottaDark: '#A0522D',  // Darker terracotta
-    sageGreen: '#9CAF88',       // Sage green
-    sageGreenLight: '#B8C9A1',  // Lighter sage green
-    sageGreenDark: '#7A8F6A',   // Darker sage green
+    indigo: '#4A5FA8',
+    indigoLight: '#6B7FC4',
+    indigoDark: '#384A8A',
+    lavender: '#8B7EC8',
+    lavenderLight: '#B0A6DC',
+    lavenderDark: '#6B5FA8',
   },
 
-  // Secondary Colors
-  secondary: {
-    clay: '#C4A484',           // Warm clay brown
-    moss: '#8FBC8F',           // Soft moss green
-    warmBeige: '#F5F5DC',      // Warm beige
-    softBrown: '#DEB887',      // Soft brown
+  // Warm accent
+  accent: {
+    gold: '#E8A838',
+    goldLight: '#F2C268',
+    goldDark: '#C48820',
   },
 
-  // Category Colors (matching the IA)
+  // Category colors (content IA)
   categories: {
-    admin: '#DC143C',          // Crimson red for Admin
-    deals: '#228B22',          // Forest green for Deals
-    culture: '#4169E1',        // Royal blue for Culture
+    admin: '#D04040',
+    deals: '#3DAA7A',
+    culture: '#8B7EC8',
   },
 
-  // Semantic Colors
+  // Semantic
   semantic: {
-    success: '#9CAF88',        // Sage green for success
-    warning: '#D2691E',        // Terracotta for warning
-    error: '#DC143C',          // Crimson for error
-    info: '#4169E1',           // Royal blue for info
+    success: '#3DAA7A',
+    warning: '#E8A838',
+    error: '#D04040',
+    info: '#4A5FA8',
+    successBg: '#EBF7F2',
+    warningBg: '#FDF5E6',
+    errorBg: '#FDEAEA',
+    infoBg: '#EEF1FA',
   },
 
-  // Neutral Colors
+  // Neutrals
   neutral: {
     white: '#FFFFFF',
-    offWhite: '#FEFEFE',
-    lightGray: '#F5F5F5',
-    gray: '#E0E0E0',
-    mediumGray: '#B0B0B0',
-    darkGray: '#808080',
-    darkerGray: '#404040',
-    black: '#000000',
+    offWhite: '#F8F7FC',
+    lightGray: '#EEEAF8',
+    gray: '#D4D0E8',
+    mediumGray: '#9494B0',
+    darkGray: '#5C5C7A',
+    darkerGray: '#2E2E4A',
+    black: '#0E0E1E',
   },
 
-  // Background Colors
+  // Backgrounds (pearl white with lavender tint)
   background: {
-    primary: '#FEFEFE',        // Off white for main background
-    secondary: '#F5F5F5',      // Light gray for secondary backgrounds
-    tertiary: '#F0F0F0',       // Even lighter for cards/sections
-    overlay: 'rgba(0, 0, 0, 0.5)',
+    primary: '#F8F7FC',
+    secondary: '#EEEAF8',
+    tertiary: '#E4E0F4',
+    overlay: 'rgba(30, 30, 46, 0.5)',
   },
 
-  // Text Colors
+  // Text
   text: {
-    primary: '#404040',        // Dark gray for primary text
-    secondary: '#808080',      // Medium gray for secondary text
-    tertiary: '#B0B0B0',       // Light gray for tertiary text
-    inverse: '#FFFFFF',        // White text on dark backgrounds
-    accent: '#D2691E',         // Terracotta for accent text
+    primary: '#1E1E2E',
+    secondary: '#5C5C7A',
+    tertiary: '#9494B0',
+    inverse: '#FFFFFF',
+    accent: '#4A5FA8',
   },
 
-  // Border Colors
+  // Borders
   border: {
-    light: '#E0E0E0',
-    medium: '#B0B0B0',
-    dark: '#808080',
+    light: '#E4E0F4',
+    medium: '#C8C2E8',
+    dark: '#9494B0',
   },
 
-  // Shadow Colors
+  // Shadows (indigo-tinted)
   shadow: {
-    light: 'rgba(0, 0, 0, 0.1)',
-    medium: 'rgba(0, 0, 0, 0.2)',
-    heavy: 'rgba(0, 0, 0, 0.3)',
+    light: 'rgba(74, 95, 168, 0.08)',
+    medium: 'rgba(74, 95, 168, 0.15)',
+    heavy: 'rgba(30, 30, 46, 0.25)',
   },
 } as const;
 

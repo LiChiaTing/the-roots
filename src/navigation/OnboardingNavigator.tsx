@@ -4,23 +4,20 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LocationSelectionScreen } from '../screens/onboarding/LocationSelectionScreen';
 import { LanguageSelectionScreen } from '../screens/onboarding/LanguageSelectionScreen';
 import { LandingScreen } from '../screens/onboarding/LandingScreen';
-import { RoleSelectionScreen } from '../screens/onboarding/RoleSelectionScreen';
-import { UserRole } from '../types';
 
 export type OnboardingStackParamList = {
   Landing: undefined;
   LanguageSelection: undefined;
   LocationSelection: undefined;
-  RoleSelection: undefined;
 };
 
 const Stack = createStackNavigator<OnboardingStackParamList>();
 
 interface CompleteUserData {
   state: string;
+  zip: string;
   nativeLanguage: string;
   targetLanguage: string;
-  role: UserRole;
 }
 
 interface OnboardingNavigatorProps {
@@ -41,17 +38,12 @@ export const OnboardingNavigator: React.FC<OnboardingNavigatorProps> = ({
     goNext();
   };
 
-  const handleLocationSelected = (state: string, goNext: () => void) => {
-    setUserData(prev => ({ ...prev, state }));
-    goNext();
-  };
-
-  const handleRoleSelected = async (role: UserRole) => {
+  const handleLocationSelected = async (state: string, zip: string) => {
     const completeUserData: CompleteUserData = {
-      state: userData.state!,
+      state,
+      zip,
       nativeLanguage: userData.nativeLanguage!,
       targetLanguage: userData.targetLanguage!,
-      role,
     };
 
     await AsyncStorage.setItem('onboardingCompleted', 'true');
@@ -89,18 +81,8 @@ export const OnboardingNavigator: React.FC<OnboardingNavigatorProps> = ({
       <Stack.Screen name="LocationSelection">
         {({ navigation }) => (
           <LocationSelectionScreen
-            onLocationSelected={(state) =>
-              handleLocationSelected(state, () => navigation.navigate('RoleSelection'))
-            }
+            onLocationSelected={handleLocationSelected}
             onBack={() => navigation.goBack()}
-          />
-        )}
-      </Stack.Screen>
-
-      <Stack.Screen name="RoleSelection">
-        {({ navigation }) => (
-          <RoleSelectionScreen
-            onRoleSelected={handleRoleSelected}
           />
         )}
       </Stack.Screen>

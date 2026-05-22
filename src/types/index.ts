@@ -200,7 +200,7 @@ export interface HomeCard {
   title: string;
   subtitle: string;
   urgency: HomeCardUrgency;
-  actionTab: 'Journey' | 'Guide' | 'Helper' | 'Circles';
+  actionTab: 'Journey' | 'Guide';
   actionPayload?: string;
 }
 
@@ -215,7 +215,7 @@ export interface SavedProvider {
   relatedQuestId?: string;
 }
 
-// Phase 4 — Circles verified answer
+// Circles verified answer (archived — feature deferred post-MVP)
 export interface VerifiedAnswer {
   id: string;
   content: string;

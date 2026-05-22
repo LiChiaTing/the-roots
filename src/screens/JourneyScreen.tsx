@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, FlatList, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../theme/theme';
 import { CalendarEventCard } from '../components/CalendarEventCard';
@@ -65,6 +66,7 @@ const factStyles = StyleSheet.create({
 
 // ─── Main Screen ─────────────────────────────────────────────────────────────
 export const JourneyScreen = () => {
+  const navigation = useNavigation<any>();
   const [expandedStageId, setExpandedStageId] = useState<number | null>(null);
   const currentMonthEvents = getCurrentMonthEvents();
   const currentMonth = new Date().getMonth();
@@ -145,7 +147,12 @@ export const JourneyScreen = () => {
                 {isExpanded && (
                   <View style={styles.questList}>
                     {stageQuests.map((quest) => (
-                      <View key={quest.id} style={styles.questRow}>
+                      <TouchableOpacity
+                        key={quest.id}
+                        style={styles.questRow}
+                        onPress={() => navigation.navigate('QuestDetail', { quest })}
+                        activeOpacity={0.7}
+                      >
                         <View
                           style={[
                             styles.categoryDot,
@@ -161,14 +168,20 @@ export const JourneyScreen = () => {
                         >
                           {quest.title}
                         </Text>
-                        {quest.status === 'completed' && (
+                        {quest.status === 'completed' ? (
                           <Ionicons
                             name="checkmark-circle"
                             size={16}
                             color={theme.colors.semantic.success}
                           />
+                        ) : (
+                          <Ionicons
+                            name="chevron-forward"
+                            size={14}
+                            color={theme.colors.text.tertiary}
+                          />
                         )}
-                      </View>
+                      </TouchableOpacity>
                     ))}
                   </View>
                 )}
@@ -178,10 +191,16 @@ export const JourneyScreen = () => {
         </View>
       </View>
 
+      {/* Divider */}
+      <View style={styles.divider} />
+
       {/* The American Rhythm — bottom */}
       <View style={[styles.section, styles.lastSection]}>
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>The American Rhythm</Text>
+          <View>
+            <Text style={styles.sectionTitle}>The American Rhythm</Text>
+            <Text style={styles.sectionCaption}>Holidays & civic moments worth knowing</Text>
+          </View>
           <Text style={styles.sectionSubtitle}>
             {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
           </Text>
@@ -247,7 +266,20 @@ const styles = StyleSheet.create({
     fontSize: theme.typography.fontSize.sm,
     color: theme.colors.text.secondary,
   },
-  // Stage list
+  divider: {
+    height: 8,
+    backgroundColor: theme.colors.background.secondary,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: theme.colors.border.light,
+    marginBottom: theme.spacing.xxl,
+  },
+  sectionCaption: {
+    fontFamily: theme.typography.fontFamily.body,
+    fontSize: theme.typography.fontSize.xs,
+    color: theme.colors.text.tertiary,
+    marginTop: 2,
+  },
   stageList: {
     paddingHorizontal: theme.layout.screenPadding,
     gap: theme.spacing.sm,

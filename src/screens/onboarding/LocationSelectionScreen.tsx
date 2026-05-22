@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   TextInput,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../../theme/theme';
 
 // ZIP → State ranges (USPS primary ranges, offline and lightweight)
@@ -337,7 +338,7 @@ const detectStateByZip = (zip: string): string | null => {
 };
 
 interface LocationSelectionScreenProps {
-  onLocationSelected: (state: string) => void;
+  onLocationSelected: (state: string, zip: string) => void;
   onBack: () => void;
 }
 
@@ -352,7 +353,7 @@ export const LocationSelectionScreen: React.FC<LocationSelectionScreenProps> = (
 
   const handleContinue = () => {
     if (detectedState) {
-      onLocationSelected(detectedState);
+      onLocationSelected(detectedState, zip);
     }
   };
 
@@ -391,7 +392,7 @@ export const LocationSelectionScreen: React.FC<LocationSelectionScreenProps> = (
         </TouchableOpacity>
         <Text style={styles.title}>Select Your State</Text>
         <Text style={styles.subtitle}>
-          This helps us provide location-specific information and regulations
+          We'll find services and resources available in your area
         </Text>
       </View>
 
@@ -412,13 +413,6 @@ export const LocationSelectionScreen: React.FC<LocationSelectionScreenProps> = (
           />
           <Text style={styles.helperText}>Enter 5-digit ZIP to auto-detect state</Text>
 
-          <View style={styles.statePreview}>
-            <Text style={styles.statePreviewLabel}>Detected state</Text>
-            <Text style={styles.statePreviewValue}>
-              {detectedState ?? '—'}
-            </Text>
-          </View>
-
           {detectedState && (
             <View style={styles.stateCard}>
               <View style={styles.stateCardHeader}>
@@ -428,7 +422,7 @@ export const LocationSelectionScreen: React.FC<LocationSelectionScreenProps> = (
               </View>
               <View style={styles.stateCardBody}>
                 <View style={styles.mapIcon}>
-                  <Text style={styles.mapIconText}>🗺️</Text>
+                  <Ionicons name="map-outline" size={28} color={theme.colors.primary.indigo} />
                 </View>
                 <View style={styles.factArea}>
                   <Text style={styles.factLabel}>Did you know?</Text>
@@ -476,27 +470,28 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.md,
   },
   backButtonText: {
+    fontFamily: theme.typography.fontFamily.bodyMedium,
     fontSize: theme.typography.fontSize.md,
-    color: theme.colors.primary.terracotta,
-    fontWeight: theme.typography.fontWeight.medium,
+    color: theme.colors.primary.indigo,
   },
   title: {
+    fontFamily: theme.typography.fontFamily.display,
     fontSize: theme.typography.fontSize.xxl,
-    fontWeight: theme.typography.fontWeight.bold,
     color: theme.colors.text.primary,
     marginBottom: theme.spacing.sm,
   },
   subtitle: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.md,
     color: theme.colors.text.secondary,
-    lineHeight: theme.typography.lineHeight.normal,
+    lineHeight: 24,
   },
   statesList: {
     padding: theme.layout.screenPadding,
     paddingBottom: theme.spacing.xxl,
   },
   continueButton: {
-    backgroundColor: theme.colors.primary.terracotta,
+    backgroundColor: theme.colors.primary.indigo,
     borderRadius: theme.borderRadius.lg,
     paddingVertical: theme.spacing.md,
     paddingHorizontal: theme.spacing.lg,
@@ -508,9 +503,9 @@ const styles = StyleSheet.create({
     opacity: 0.6,
   },
   continueButtonText: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     color: theme.colors.text.inverse,
     fontSize: theme.typography.fontSize.lg,
-    fontWeight: theme.typography.fontWeight.semibold,
   },
   inputGroup: {
     backgroundColor: theme.colors.background.secondary,
@@ -519,12 +514,13 @@ const styles = StyleSheet.create({
     ...theme.shadows.sm,
   },
   label: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     fontSize: theme.typography.fontSize.md,
-    fontWeight: theme.typography.fontWeight.semibold,
     color: theme.colors.text.primary,
     marginBottom: theme.spacing.xs,
   },
   input: {
+    fontFamily: theme.typography.fontFamily.body,
     height: 48,
     borderWidth: 1,
     borderColor: theme.colors.border.light,
@@ -536,6 +532,7 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.xs,
   },
   helperText: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.sm,
     color: theme.colors.text.secondary,
     marginBottom: theme.spacing.md,
@@ -548,12 +545,13 @@ const styles = StyleSheet.create({
     gap: theme.spacing.md,
   },
   statePreviewLabel: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.sm,
     color: theme.colors.text.secondary,
   },
   statePreviewValue: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     fontSize: theme.typography.fontSize.lg,
-    fontWeight: theme.typography.fontWeight.semibold,
     color: theme.colors.text.primary,
   },
   stateCard: {
@@ -572,8 +570,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   stateCardTitle: {
+    fontFamily: theme.typography.fontFamily.displaySemibold,
     fontSize: theme.typography.fontSize.lg,
-    fontWeight: theme.typography.fontWeight.bold,
     color: theme.colors.text.primary,
   },
   stateCardBody: {
@@ -585,28 +583,27 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 14,
-    backgroundColor: theme.colors.primary.sageGreenLight,
+    backgroundColor: theme.colors.primary.lavenderLight,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  mapIconText: {
-    fontSize: 28,
   },
   factArea: {
     flex: 1,
     gap: theme.spacing.xs,
   },
   factLabel: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     fontSize: theme.typography.fontSize.sm,
-    color: theme.colors.primary.terracotta,
-    fontWeight: theme.typography.fontWeight.semibold,
+    color: theme.colors.primary.indigo,
   },
   factText: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.md,
     color: theme.colors.text.primary,
-    lineHeight: theme.typography.lineHeight.normal * theme.typography.fontSize.md,
+    lineHeight: 24,
   },
   errorText: {
+    fontFamily: theme.typography.fontFamily.body,
     marginTop: theme.spacing.xs,
     color: theme.colors.semantic.error,
     fontSize: theme.typography.fontSize.sm,

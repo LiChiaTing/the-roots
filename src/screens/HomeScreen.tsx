@@ -56,7 +56,7 @@ export const HomeScreen = () => {
           </View>
           <View style={styles.headerBadge}>
             <Ionicons name="leaf-outline" size={14} color={theme.colors.text.inverse} />
-            <Text style={styles.headerBadgeText}>Stage 1</Text>
+            <Text style={styles.headerBadgeText}>Stage 1 · Getting Started</Text>
           </View>
         </View>
         <TouchableOpacity
@@ -78,26 +78,14 @@ export const HomeScreen = () => {
         ))}
       </View>
 
-      {/* Continue row */}
+      {/* Quick Access */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Continue Where You Left Off</Text>
-        <View style={styles.continueRow}>
-          <ContinueChip
-            icon="chatbubble-ellipses-outline"
-            label="Ask AI"
-            onPress={() => navigation.navigate('Find', { screen: 'AI' })}
-          />
-          <ContinueChip
-            icon="leaf-outline"
-            label="Quests"
-            onPress={() => navigation.navigate('Journey')}
-          />
-          <ContinueChip
-            icon="map-outline"
-            label="Services"
-            onPress={() => navigation.navigate('Find', { screen: 'Services' })}
-          />
-        </View>
+        <Text style={styles.sectionTitle}>Quick Access</Text>
+        <ContinueChip
+          icon="chatbubble-ellipses-outline"
+          label="Ask AI"
+          onPress={() => navigation.navigate('Guide', { screen: 'AI' })}
+        />
       </View>
 
       {/* Saved providers */}
@@ -144,9 +132,12 @@ function ContinueChip({
   onPress: () => void;
 }) {
   return (
-    <TouchableOpacity style={styles.continueChip} onPress={onPress}>
-      <Ionicons name={icon} size={22} color={theme.colors.primary.indigo} />
+    <TouchableOpacity style={styles.continueChip} onPress={onPress} activeOpacity={0.7}>
+      <View style={styles.continueChipIcon}>
+        <Ionicons name={icon} size={20} color={theme.colors.primary.indigo} />
+      </View>
       <Text style={styles.continueChipLabel}>{label}</Text>
+      <Ionicons name="chevron-forward" size={16} color={theme.colors.text.tertiary} style={{ marginLeft: 'auto' }} />
     </TouchableOpacity>
   );
 }
@@ -297,23 +288,29 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     marginRight: theme.spacing.sm,
   },
-  continueRow: {
-    flexDirection: 'row',
-    gap: theme.spacing.md,
-  },
   continueChip: {
-    flex: 1,
+    flexDirection: 'row',
     alignItems: 'center',
-    gap: theme.spacing.xs,
+    gap: theme.spacing.md,
     backgroundColor: theme.colors.background.secondary,
     borderRadius: theme.borderRadius.lg,
     paddingVertical: theme.spacing.md,
+    paddingHorizontal: theme.spacing.md,
     ...theme.shadows.sm,
+  },
+  continueChipIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: theme.borderRadius.md,
+    backgroundColor: theme.colors.primary.lavenderLight,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   continueChipLabel: {
     fontFamily: theme.typography.fontFamily.bodySemibold,
-    fontSize: theme.typography.fontSize.xs,
-    color: theme.colors.text.secondary,
+    fontSize: theme.typography.fontSize.md,
+    color: theme.colors.text.primary,
+    flex: 1,
   },
   providerRow: {
     flexDirection: 'row',

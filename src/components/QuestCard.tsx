@@ -18,7 +18,7 @@ export const QuestCard: React.FC<QuestCardProps> = ({ quest, onPress, onFindServ
   const getStatusColor = (status: Quest['status']) => {
     switch (status) {
       case 'completed': return theme.colors.semantic.success;
-      case 'in_progress': return theme.colors.primary.sageGreen;
+      case 'in_progress': return theme.colors.primary.lavender;
       default: return theme.colors.neutral.gray;
     }
   };
@@ -58,15 +58,14 @@ export const QuestCard: React.FC<QuestCardProps> = ({ quest, onPress, onFindServ
         </View>
       </View>
 
-      {/* Phase 2: Service deep-link button */}
       {quest.serviceLink && onFindService && (
         <TouchableOpacity
           style={styles.findServiceButton}
           onPress={() => onFindService(quest.serviceLink!.category, quest.serviceLink!.presetInsurance)}
         >
-          <Ionicons name="map-outline" size={14} color={theme.colors.primary.terracotta} />
+          <Ionicons name="map-outline" size={14} color={theme.colors.primary.indigo} />
           <Text style={styles.findServiceText}>{quest.serviceLink.label}</Text>
-          <Ionicons name="chevron-forward" size={13} color={theme.colors.primary.terracotta} />
+          <Ionicons name="chevron-forward" size={13} color={theme.colors.primary.indigo} />
         </TouchableOpacity>
       )}
     </TouchableOpacity>
@@ -88,26 +87,27 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.sm,
   },
   stageBadge: {
-    backgroundColor: theme.colors.primary.terracotta,
+    backgroundColor: theme.colors.primary.indigo,
     borderRadius: theme.borderRadius.sm,
     paddingHorizontal: theme.spacing.sm,
     paddingVertical: theme.spacing.xs,
   },
   stageText: {
+    fontFamily: theme.typography.fontFamily.bodyBold,
     fontSize: theme.typography.fontSize.xs,
-    fontWeight: theme.typography.fontWeight.bold,
     color: theme.colors.text.inverse,
   },
   title: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     fontSize: theme.typography.fontSize.md,
-    fontWeight: theme.typography.fontWeight.semibold,
     color: theme.colors.text.primary,
     marginBottom: theme.spacing.xs,
   },
   description: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.sm,
     color: theme.colors.text.secondary,
-    lineHeight: theme.typography.lineHeight.normal,
+    lineHeight: 20,
     marginBottom: theme.spacing.md,
   },
   progressSection: {
@@ -120,14 +120,14 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.xs,
   },
   progressText: {
+    fontFamily: theme.typography.fontFamily.bodyMedium,
     fontSize: theme.typography.fontSize.sm,
-    fontWeight: theme.typography.fontWeight.medium,
     color: theme.colors.text.secondary,
   },
   progressPercent: {
+    fontFamily: theme.typography.fontFamily.bodyBold,
     fontSize: theme.typography.fontSize.sm,
-    fontWeight: theme.typography.fontWeight.bold,
-    color: theme.colors.primary.terracotta,
+    color: theme.colors.primary.indigo,
   },
   progressBar: {
     height: 6,
@@ -143,9 +143,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    backgroundColor: '#FFF8F5',
+    backgroundColor: theme.colors.semantic.infoBg,
     borderWidth: 1,
-    borderColor: '#E6935A',
+    borderColor: theme.colors.primary.indigoLight,
     borderRadius: theme.borderRadius.sm,
     paddingHorizontal: theme.spacing.md,
     paddingVertical: theme.spacing.xs,
@@ -153,8 +153,8 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   findServiceText: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     fontSize: theme.typography.fontSize.xs,
-    color: theme.colors.primary.terracotta,
-    fontWeight: theme.typography.fontWeight.semibold,
+    color: theme.colors.primary.indigo,
   },
 });

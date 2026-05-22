@@ -27,6 +27,18 @@ export const theme = {
 
   // Typography
   typography: {
+    // Font families
+    // Display (headings, brand title) — Plus Jakarta Sans (Latin/UI only)
+    // Body (content, labels) — Noto Sans (universal, supports 1000+ languages)
+    fontFamily: {
+      display: 'PlusJakartaSans_700Bold',
+      displaySemibold: 'PlusJakartaSans_600SemiBold',
+      body: 'NotoSans_400Regular',
+      bodyMedium: 'NotoSans_500Medium',
+      bodySemibold: 'NotoSans_600SemiBold',
+      bodyBold: 'NotoSans_700Bold',
+    },
+
     fontSize: {
       xs: 12,
       sm: 14,
@@ -37,6 +49,7 @@ export const theme = {
       xxxl: 32,
       huge: 48,
     },
+
     fontWeight: {
       light: '300' as const,
       regular: '400' as const,
@@ -44,6 +57,7 @@ export const theme = {
       semibold: '600' as const,
       bold: '700' as const,
     },
+
     lineHeight: {
       tight: 1.2,
       normal: 1.5,
@@ -51,7 +65,7 @@ export const theme = {
     },
   },
 
-  // Shadows
+  // Shadows (indigo-tinted)
   shadows: {
     sm: {
       shadowColor: colors.shadow.medium,
@@ -74,6 +88,82 @@ export const theme = {
       shadowRadius: 8,
       elevation: 8,
     },
+  },
+
+  // Semantic icon map (all Ionicons names)
+  icons: {
+    // Tab navigation
+    tabHome: 'home-outline',
+    tabHomeActive: 'home',
+    tabJourney: 'leaf-outline',
+    tabJourneyActive: 'leaf',
+    tabGuide: 'compass-outline',
+    tabGuideActive: 'compass',
+    tabHelper: 'build-outline',
+    tabHelperActive: 'build',
+    tabCircles: 'people-outline',
+    tabCirclesActive: 'people',
+
+    // Navigation actions
+    back: 'chevron-back',
+    forward: 'chevron-forward',
+    close: 'close',
+    add: 'add',
+    menu: 'menu-outline',
+    search: 'search-outline',
+    settings: 'settings-outline',
+
+    // Content types
+    calendar: 'calendar-outline',
+    deadline: 'time-outline',
+    quest: 'leaf-outline',
+    document: 'document-text-outline',
+    link: 'link-outline',
+    ai: 'sparkles-outline',
+
+    // Category icons (content IA)
+    admin: 'shield-checkmark-outline',
+    deals: 'pricetag-outline',
+    culture: 'globe-outline',
+
+    // Social / community
+    people: 'people-outline',
+    person: 'person-outline',
+    circle: 'ellipse-outline',
+
+    // Status / interaction
+    saved: 'bookmark-outline',
+    savedFill: 'bookmark',
+    liked: 'heart-outline',
+    likedFill: 'heart',
+    star: 'star-outline',
+    check: 'checkmark-circle-outline',
+    verified: 'shield-checkmark',
+
+    // Feedback / info
+    info: 'information-circle-outline',
+    warning: 'alert-circle-outline',
+    error: 'close-circle-outline',
+    success: 'checkmark-circle-outline',
+
+    // Location / services
+    location: 'location-outline',
+    map: 'map-outline',
+
+    // Contact
+    phone: 'call-outline',
+    email: 'mail-outline',
+    website: 'globe-outline',
+
+    // Healthcare
+    clinic: 'medkit-outline',
+    doctor: 'person-outline',
+    hospital: 'business-outline',
+
+    // Helper tools
+    camera: 'camera-outline',
+    translate: 'language-outline',
+    notification: 'notifications-outline',
   },
 
   // Component specific styles

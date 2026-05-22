@@ -1,7 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import { View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
+import { useFonts } from 'expo-font';
+import {
+  NotoSans_400Regular,
+  NotoSans_500Medium,
+  NotoSans_600SemiBold,
+  NotoSans_700Bold,
+} from '@expo-google-fonts/noto-sans';
+import {
+  PlusJakartaSans_600SemiBold,
+  PlusJakartaSans_700Bold,
+} from '@expo-google-fonts/plus-jakarta-sans';
 import { AppNavigator } from './src/navigation/AppNavigator';
 import { OnboardingNavigator } from './src/navigation/OnboardingNavigator';
 
@@ -9,10 +21,19 @@ export default function App() {
   const [isOnboardingCompleted, setIsOnboardingCompleted] = useState<boolean | null>(null);
   const [userData, setUserData] = useState<{
     state: string;
+    zip: string;
     nativeLanguage: string;
     targetLanguage: string;
-    role?: string;
   } | null>(null);
+
+  const [fontsLoaded] = useFonts({
+    NotoSans_400Regular,
+    NotoSans_500Medium,
+    NotoSans_600SemiBold,
+    NotoSans_700Bold,
+    PlusJakartaSans_600SemiBold,
+    PlusJakartaSans_700Bold,
+  });
 
   useEffect(() => {
     checkOnboardingStatus();
@@ -37,17 +58,16 @@ export default function App() {
 
   const handleOnboardingComplete = (newUserData: {
     state: string;
+    zip: string;
     nativeLanguage: string;
     targetLanguage: string;
-    role?: string;
   }) => {
     setUserData(newUserData);
     setIsOnboardingCompleted(true);
   };
 
-  // Show loading screen while checking onboarding status
-  if (isOnboardingCompleted === null) {
-    return null; // Or a loading component
+  if (!fontsLoaded || isOnboardingCompleted === null) {
+    return <View style={{ flex: 1, backgroundColor: '#F8F7FC' }} />;
   }
 
   return (

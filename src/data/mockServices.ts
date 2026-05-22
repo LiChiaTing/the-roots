@@ -247,7 +247,7 @@ export const mockHomeCards: HomeCard[] = [
     title: 'Your driver\'s license expires in 30 days',
     subtitle: 'Ask the AI for renewal steps in Washington.',
     urgency: 'medium',
-    actionTab: 'Helper',
+    actionTab: 'Guide',
   },
   {
     id: 'hc-5',

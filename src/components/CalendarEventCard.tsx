@@ -41,7 +41,7 @@ export const CalendarEventCard: React.FC<CalendarEventCardProps> = ({
       activeOpacity={0.7}
     >
       <View style={styles.header}>
-        <Text style={styles.date}>{formatDate(event.date)}</Text>
+        <Text style={[styles.date, { color: categoryColor }]}>{formatDate(event.date)}</Text>
         <Ionicons name={categoryIonIcon} size={20} color={categoryColor} />
       </View>
 
@@ -80,20 +80,20 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.sm,
   },
   date: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     fontSize: theme.typography.fontSize.sm,
-    fontWeight: theme.typography.fontWeight.bold,
-    color: theme.colors.primary.terracotta,
   },
   title: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     fontSize: theme.typography.fontSize.md,
-    fontWeight: theme.typography.fontWeight.semibold,
     color: theme.colors.text.primary,
     marginBottom: theme.spacing.xs,
   },
   description: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.sm,
     color: theme.colors.text.secondary,
-    lineHeight: theme.typography.lineHeight.normal,
+    lineHeight: 20,
   },
   priorityIndicator: {
     position: 'absolute',

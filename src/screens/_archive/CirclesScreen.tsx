@@ -74,7 +74,6 @@ export const CirclesScreen = () => {
       <Text style={styles.title}>Local Circles</Text>
       <Text style={styles.subtitle}>State-filtered updates and verified tips</Text>
 
-      {/* State + filter header */}
       <View style={styles.sectionHeader}>
         <View>
           <Text style={styles.filterLabel}>State</Text>
@@ -86,7 +85,6 @@ export const CirclesScreen = () => {
         </TouchableOpacity>
       </View>
 
-      {/* Phase 4: Language filter chips */}
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -134,7 +132,6 @@ function PostCard({ post }: { post: typeof posts[0] }) {
 
       <Text style={styles.cardContent}>{post.content}</Text>
 
-      {/* Phase 4: Verified answer expandable */}
       {post.verifiedAnswer && (
         <>
           <TouchableOpacity
@@ -144,7 +141,7 @@ function PostCard({ post }: { post: typeof posts[0] }) {
             <Ionicons
               name={showVerified ? 'chevron-up' : 'chevron-down'}
               size={14}
-              color={theme.colors.primary.sageGreen}
+              color={theme.colors.primary.lavender}
             />
             <Text style={styles.verifiedAnswerLabel}>
               {showVerified ? 'Hide official answer' : 'See official answer'}
@@ -154,7 +151,7 @@ function PostCard({ post }: { post: typeof posts[0] }) {
           {showVerified && (
             <View style={styles.verifiedAnswerBox}>
               <View style={styles.verifiedAnswerHeader}>
-                <Ionicons name="shield-checkmark-outline" size={15} color={theme.colors.primary.sageGreen} />
+                <Ionicons name="shield-checkmark-outline" size={15} color={theme.colors.primary.lavender} />
                 <Text style={styles.verifiedAnswerBy}>{post.verifiedAnswer.verifiedBy}</Text>
                 <Text style={styles.verifiedAnswerDate}>
                   {new Date(post.verifiedAnswer.verifiedAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
@@ -180,12 +177,13 @@ const styles = StyleSheet.create({
     padding: theme.layout.screenPadding,
   },
   title: {
+    fontFamily: theme.typography.fontFamily.display,
     fontSize: theme.typography.fontSize.xxl,
-    fontWeight: theme.typography.fontWeight.bold,
     color: theme.colors.text.primary,
     marginBottom: theme.spacing.xs,
   },
   subtitle: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.md,
     color: theme.colors.text.secondary,
     marginBottom: theme.spacing.xl,
@@ -197,26 +195,27 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.md,
   },
   filterLabel: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.sm,
     color: theme.colors.text.secondary,
   },
   filterValue: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     fontSize: theme.typography.fontSize.lg,
-    fontWeight: theme.typography.fontWeight.semibold,
     color: theme.colors.text.primary,
   },
   filterChip: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: theme.colors.primary.terracotta,
+    backgroundColor: theme.colors.primary.indigo,
     paddingHorizontal: theme.spacing.md,
     paddingVertical: theme.spacing.xs,
     borderRadius: theme.borderRadius.full,
     gap: theme.spacing.xs,
   },
   filterChipText: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     color: theme.colors.text.inverse,
-    fontWeight: theme.typography.fontWeight.semibold,
     fontSize: theme.typography.fontSize.sm,
   },
   languageRow: {
@@ -233,18 +232,20 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.background.primary,
   },
   langChipActive: {
-    backgroundColor: theme.colors.primary.terracotta,
-    borderColor: theme.colors.primary.terracotta,
+    backgroundColor: theme.colors.primary.indigo,
+    borderColor: theme.colors.primary.indigo,
   },
   langChipText: {
+    fontFamily: theme.typography.fontFamily.bodyMedium,
     fontSize: theme.typography.fontSize.sm,
     color: theme.colors.text.secondary,
-    fontWeight: theme.typography.fontWeight.medium,
   },
   langChipTextActive: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     color: theme.colors.text.inverse,
   },
   resultsNote: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.xs,
     color: theme.colors.text.tertiary,
     marginBottom: theme.spacing.md,
@@ -268,24 +269,26 @@ const styles = StyleSheet.create({
     gap: theme.spacing.xs,
   },
   langBadge: {
+    fontFamily: theme.typography.fontFamily.bodyBold,
     fontSize: 10,
-    fontWeight: theme.typography.fontWeight.bold,
-    color: theme.colors.primary.terracotta,
+    color: theme.colors.primary.indigo,
     textTransform: 'uppercase',
     letterSpacing: 0.5,
   },
   cardTitle: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     fontSize: theme.typography.fontSize.md,
-    fontWeight: theme.typography.fontWeight.semibold,
     color: theme.colors.text.primary,
   },
   cardContent: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.md,
     color: theme.colors.text.secondary,
     marginBottom: theme.spacing.sm,
     lineHeight: 22,
   },
   cardMeta: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.sm,
     color: theme.colors.text.tertiary,
     marginTop: theme.spacing.xs,
@@ -293,7 +296,7 @@ const styles = StyleSheet.create({
   verifiedTag: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: theme.colors.primary.sageGreen,
+    backgroundColor: theme.colors.primary.lavender,
     paddingHorizontal: theme.spacing.sm,
     paddingVertical: theme.spacing.xs,
     borderRadius: theme.borderRadius.full,
@@ -301,8 +304,8 @@ const styles = StyleSheet.create({
     flexShrink: 0,
   },
   verifiedText: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     color: theme.colors.text.inverse,
-    fontWeight: theme.typography.fontWeight.semibold,
     fontSize: theme.typography.fontSize.xs,
   },
   verifiedAnswerToggle: {
@@ -312,14 +315,14 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.xs,
   },
   verifiedAnswerLabel: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     fontSize: theme.typography.fontSize.xs,
-    color: theme.colors.primary.sageGreen,
-    fontWeight: theme.typography.fontWeight.semibold,
+    color: theme.colors.primary.lavender,
   },
   verifiedAnswerBox: {
-    backgroundColor: '#F1F8F4',
+    backgroundColor: theme.colors.semantic.infoBg,
     borderWidth: 1,
-    borderColor: '#C8E6C9',
+    borderColor: theme.colors.border.medium,
     borderRadius: theme.borderRadius.sm,
     padding: theme.spacing.sm,
     marginBottom: theme.spacing.sm,
@@ -331,16 +334,18 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   verifiedAnswerBy: {
+    fontFamily: theme.typography.fontFamily.bodyBold,
     fontSize: theme.typography.fontSize.xs,
-    fontWeight: theme.typography.fontWeight.bold,
-    color: theme.colors.primary.sageGreen,
+    color: theme.colors.primary.lavender,
     flex: 1,
   },
   verifiedAnswerDate: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.xs,
     color: theme.colors.text.tertiary,
   },
   verifiedAnswerContent: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.sm,
     color: theme.colors.text.primary,
     lineHeight: 20,

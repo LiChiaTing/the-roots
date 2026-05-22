@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Animated } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../../theme/theme';
 
 interface LandingScreenProps {
@@ -21,10 +22,10 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
     <View style={styles.container}>
       <Animated.View style={[styles.logoContainer, { opacity: fadeAnim }]}>
         <View style={styles.logoMark}>
-          <Text style={styles.logoIcon}>🌱</Text>
+          <Ionicons name="leaf-outline" size={48} color={theme.colors.primary.lavenderDark} />
         </View>
         <Text style={styles.logoText}>The Roots</Text>
-        <Text style={styles.tagline}>Cozy productivity for newcomers & family</Text>
+        <Text style={styles.tagline}>Navigate life in America, step by step</Text>
       </Animated.View>
 
       <TouchableOpacity style={styles.startButton} onPress={onStart}>
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
     width: 96,
     height: 96,
     borderRadius: 48,
-    backgroundColor: theme.colors.primary.sageGreenLight,
+    backgroundColor: theme.colors.primary.lavenderLight,
     alignItems: 'center',
     justifyContent: 'center',
     shadowColor: theme.colors.shadow.medium,
@@ -60,21 +61,19 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 6,
   },
-  logoIcon: {
-    fontSize: 48,
-  },
   logoText: {
+    fontFamily: theme.typography.fontFamily.display,
     fontSize: theme.typography.fontSize.xxl,
-    fontWeight: theme.typography.fontWeight.bold,
     color: theme.colors.text.primary,
   },
   tagline: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.md,
     color: theme.colors.text.secondary,
     textAlign: 'center',
   },
   startButton: {
-    backgroundColor: theme.colors.primary.terracotta,
+    backgroundColor: theme.colors.primary.indigo,
     paddingVertical: theme.spacing.md,
     paddingHorizontal: theme.spacing.xl,
     borderRadius: theme.borderRadius.full,
@@ -85,9 +84,8 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   startButtonText: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     color: theme.colors.text.inverse,
     fontSize: theme.typography.fontSize.lg,
-    fontWeight: theme.typography.fontWeight.semibold,
   },
 });
-

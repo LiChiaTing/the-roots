@@ -5,8 +5,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   SafeAreaView,
-  Image,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../../theme/theme';
 import { UserRole } from '../../types';
 
@@ -34,17 +34,14 @@ export const RoleSelectionScreen: React.FC<RoleSelectionScreenProps> = ({
     role: UserRole;
     title: string;
     description: string;
-    icon: string;
+    icon: keyof typeof Ionicons.glyphMap;
   }) => (
     <TouchableOpacity
-      style={[
-        styles.roleCard,
-        selectedRole === role && styles.selectedRoleCard,
-      ]}
+      style={[styles.roleCard, selectedRole === role && styles.selectedRoleCard]}
       onPress={() => setSelectedRole(role)}
     >
       <View style={styles.roleIcon}>
-        <Text style={styles.roleIconText}>{icon}</Text>
+        <Ionicons name={icon} size={36} color={theme.colors.primary.indigoDark} />
       </View>
       <Text style={styles.roleTitle}>{title}</Text>
       <Text style={styles.roleDescription}>{description}</Text>
@@ -65,21 +62,18 @@ export const RoleSelectionScreen: React.FC<RoleSelectionScreenProps> = ({
           role="guide"
           title="The Guide"
           description="Young immigrant helping navigate American life"
-          icon="🌱"
+          icon="compass-outline"
         />
         <RoleCard
           role="member"
           title="The Member"
           description="Elder seeking assistance and guidance"
-          icon="🌿"
+          icon="person-outline"
         />
       </View>
 
       <TouchableOpacity
-        style={[
-          styles.continueButton,
-          !selectedRole && styles.continueButtonDisabled,
-        ]}
+        style={[styles.continueButton, !selectedRole && styles.continueButtonDisabled]}
         onPress={handleContinue}
         disabled={!selectedRole}
       >
@@ -99,17 +93,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   welcomeTitle: {
+    fontFamily: theme.typography.fontFamily.display,
     fontSize: theme.typography.fontSize.xxxl,
-    fontWeight: theme.typography.fontWeight.bold,
-    color: theme.colors.primary.terracotta,
+    color: theme.colors.primary.indigo,
     textAlign: 'center',
     marginBottom: theme.spacing.sm,
   },
   subtitle: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.lg,
     color: theme.colors.text.secondary,
     textAlign: 'center',
-    lineHeight: theme.typography.lineHeight.relaxed,
+    lineHeight: 28,
   },
   rolesContainer: {
     flex: 1,
@@ -126,35 +121,33 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
   },
   selectedRoleCard: {
-    borderColor: theme.colors.primary.sageGreen,
-    backgroundColor: theme.colors.primary.sageGreenLight,
+    borderColor: theme.colors.primary.lavender,
+    backgroundColor: theme.colors.primary.lavenderLight,
   },
   roleIcon: {
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: theme.colors.primary.terracottaLight,
+    backgroundColor: theme.colors.primary.indigoLight + '33',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: theme.spacing.md,
   },
-  roleIconText: {
-    fontSize: 36,
-  },
   roleTitle: {
+    fontFamily: theme.typography.fontFamily.displaySemibold,
     fontSize: theme.typography.fontSize.xl,
-    fontWeight: theme.typography.fontWeight.bold,
     color: theme.colors.text.primary,
     marginBottom: theme.spacing.sm,
   },
   roleDescription: {
+    fontFamily: theme.typography.fontFamily.body,
     fontSize: theme.typography.fontSize.md,
     color: theme.colors.text.secondary,
     textAlign: 'center',
-    lineHeight: theme.typography.lineHeight.normal,
+    lineHeight: 24,
   },
   continueButton: {
-    backgroundColor: theme.colors.primary.terracotta,
+    backgroundColor: theme.colors.primary.indigo,
     borderRadius: theme.borderRadius.lg,
     padding: theme.spacing.md,
     margin: theme.layout.screenPadding,
@@ -165,8 +158,8 @@ const styles = StyleSheet.create({
     opacity: 0.6,
   },
   continueButtonText: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
     color: theme.colors.text.inverse,
     fontSize: theme.typography.fontSize.lg,
-    fontWeight: theme.typography.fontWeight.semibold,
   },
 });

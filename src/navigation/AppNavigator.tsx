@@ -8,12 +8,14 @@ import { theme } from '../theme/theme';
 import { HomeScreen } from '../screens/HomeScreen';
 import { ProfileScreen } from '../screens/ProfileScreen';
 import { JourneyScreen } from '../screens/JourneyScreen';
-import { FindScreen } from '../screens/FindScreen';
+import { QuestDetailScreen } from '../screens/QuestDetailScreen';
+import { GuideScreen } from '../screens/GuideScreen';
 import { ServicesScreen } from '../screens/ServicesScreen';
 import { AIScreen } from '../screens/AIScreen';
 
 const HomeStack = createStackNavigator();
-const FindStack = createStackNavigator();
+const JourneyStack = createStackNavigator();
+const GuideStack = createStackNavigator();
 
 const stackHeaderOptions = {
   headerStyle: { backgroundColor: theme.colors.primary.indigo },
@@ -52,25 +54,42 @@ function HomeNavigator() {
   );
 }
 
-function FindNavigator() {
+function JourneyNavigator() {
   return (
-    <FindStack.Navigator screenOptions={stackHeaderOptions}>
-      <FindStack.Screen
-        name="FindMain"
-        component={FindScreen}
-        options={{ title: 'Find' }}
+    <JourneyStack.Navigator screenOptions={stackHeaderOptions}>
+      <JourneyStack.Screen
+        name="JourneyMain"
+        component={JourneyScreen}
+        options={{ title: 'My Journey' }}
       />
-      <FindStack.Screen
+      <JourneyStack.Screen
+        name="QuestDetail"
+        component={QuestDetailScreen}
+        options={({ route }: any) => ({ title: route.params?.quest?.title ?? 'Quest' })}
+      />
+    </JourneyStack.Navigator>
+  );
+}
+
+function GuideNavigator() {
+  return (
+    <GuideStack.Navigator screenOptions={stackHeaderOptions}>
+      <GuideStack.Screen
+        name="GuideMain"
+        component={GuideScreen}
+        options={{ title: 'Guide' }}
+      />
+      <GuideStack.Screen
         name="Services"
         component={ServicesScreen}
         options={{ title: 'Local Services' }}
       />
-      <FindStack.Screen
+      <GuideStack.Screen
         name="AI"
         component={AIScreen}
         options={{ title: 'Ask the Roots AI' }}
       />
-    </FindStack.Navigator>
+    </GuideStack.Navigator>
   );
 }
 
@@ -87,7 +106,7 @@ export const AppNavigator = () => {
             iconName = focused ? 'home' : 'home-outline';
           } else if (route.name === 'Journey') {
             iconName = focused ? 'leaf' : 'leaf-outline';
-          } else if (route.name === 'Find') {
+          } else if (route.name === 'Guide') {
             iconName = focused ? 'compass' : 'compass-outline';
           } else {
             iconName = 'help-outline';
@@ -123,13 +142,13 @@ export const AppNavigator = () => {
       />
       <Tab.Screen
         name="Journey"
-        component={JourneyScreen}
-        options={{ title: 'My Journey', tabBarLabel: 'Journey' }}
+        component={JourneyNavigator}
+        options={{ title: 'My Journey', tabBarLabel: 'Journey', headerShown: false }}
       />
       <Tab.Screen
-        name="Find"
-        component={FindNavigator}
-        options={{ title: 'Find', tabBarLabel: 'Find', headerShown: false }}
+        name="Guide"
+        component={GuideNavigator}
+        options={{ title: 'Guide', tabBarLabel: 'Guide', headerShown: false }}
       />
     </Tab.Navigator>
   );

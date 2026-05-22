@@ -88,7 +88,7 @@ export const allQuests: Quest[] = [
   {
     id: 'q1-emergency-card',
     title: 'Set Up Your Emergency Card',
-    description: 'Fill in your emergency card in the Kit tab so first responders can help you even if you cannot communicate.',
+    description: 'Set up your emergency card so first responders can help you even if you cannot communicate.',
     whyItMatters: 'In a medical emergency you may not be able to speak. Your emergency card shows your language, allergies, blood type, and emergency contacts on a full-screen display.',
     stage: 1,
     status: 'pending',
@@ -96,9 +96,8 @@ export const allQuests: Quest[] = [
     category: 'admin',
     documentsNeeded: [],
     steps: [
-      'Go to Kit → Emergency Card',
-      'Enter: your native language, allergies, blood type, emergency contact name + phone',
-      'Test the full-screen mode and voice playback',
+      'Enter your native language, allergies, blood type, and emergency contact name + phone',
+      'Keep this information up to date',
     ],
     phraseCard: null,
     unlocks: [],
