@@ -10,6 +10,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../theme/theme';
+import { PrimaryButton } from '../components/PrimaryButton';
 import { Quest } from '../types';
 import { allQuests, getCategoryColor } from '../data/mockData';
 import { fetchNearbyBanks, formatLastUpdated, BankResult } from '../services/apifyService';
@@ -416,20 +417,23 @@ export const QuestDetailScreen = ({ route }: any) => {
 
       {/* ── #11 Sticky Done button ────────────────────────────────────── */}
       <View style={styles.stickyFooter}>
-        <TouchableOpacity
-          style={[styles.doneButton, isDone && styles.doneButtonDone]}
-          onPress={() => setIsDone(!isDone)}
-          activeOpacity={0.85}
-        >
-          <Ionicons
-            name={isDone ? 'checkmark-circle' : 'checkmark-circle-outline'}
-            size={22}
-            color={isDone ? theme.colors.text.inverse : theme.colors.text.inverse}
+        {isDone ? (
+          <TouchableOpacity
+            style={[styles.doneButton, styles.doneButtonDone]}
+            onPress={() => setIsDone(false)}
+            activeOpacity={0.85}
+          >
+            <Ionicons name="checkmark-circle" size={22} color={theme.colors.text.inverse} />
+            <Text style={styles.doneButtonText}>Marked as done</Text>
+          </TouchableOpacity>
+        ) : (
+          <PrimaryButton
+            label="Mark this quest done"
+            icon="checkmark-circle-outline"
+            fullWidth
+            onPress={() => setIsDone(true)}
           />
-          <Text style={styles.doneButtonText}>
-            {isDone ? 'Marked as done' : 'Mark this quest done'}
-          </Text>
-        </TouchableOpacity>
+        )}
       </View>
     </View>
   );

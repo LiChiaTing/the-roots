@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../theme/theme';
+import { PrimaryButton } from '../components/PrimaryButton';
 
 const doctors = [
   {
@@ -30,10 +32,11 @@ type GuideTab = 'doctors' | 'services';
 export const GuideScreen = () => {
   const [activeTab, setActiveTab] = useState<GuideTab>('doctors');
   const navigation = useNavigation<any>();
+  const insets = useSafeAreaInsets();
 
   return (
     <View style={styles.container}>
-      <View style={styles.segmentBar}>
+      <View style={[styles.segmentBar, { paddingTop: insets.top + theme.spacing.sm }]}>
         <TouchableOpacity
           style={[styles.segmentButton, activeTab === 'doctors' && styles.segmentButtonActive]}
           onPress={() => setActiveTab('doctors')}
@@ -142,9 +145,7 @@ function DoctorsPanel({ navigation }: { navigation: any }) {
           <Text style={styles.cardMeta}>Insurance: {doc.insurance}</Text>
           <View style={styles.cardFooter}>
             <Text style={styles.cardMeta}>{doc.distance} away</Text>
-            <TouchableOpacity style={styles.primaryButton}>
-              <Text style={styles.primaryButtonText}>Book</Text>
-            </TouchableOpacity>
+            <PrimaryButton label="Book" compact onPress={() => {}} />
           </View>
         </View>
       ))}

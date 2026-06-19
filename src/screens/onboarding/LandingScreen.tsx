@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../../theme/theme';
+import { PrimaryButton } from '../../components/PrimaryButton';
 
 interface LandingScreenProps {
   onStart: () => void;
@@ -28,9 +29,7 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
         <Text style={styles.tagline}>Navigate life in America, step by step</Text>
       </Animated.View>
 
-      <TouchableOpacity style={styles.startButton} onPress={onStart}>
-        <Text style={styles.startButtonText}>Start</Text>
-      </TouchableOpacity>
+      <PrimaryButton label="Start" onPress={onStart} />
     </View>
   );
 };

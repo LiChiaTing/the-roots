@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../../theme/theme';
+import { PrimaryButton } from '../../components/PrimaryButton';
 import { UserRole } from '../../types';
 
 interface RoleSelectionScreenProps {
@@ -72,13 +73,13 @@ export const RoleSelectionScreen: React.FC<RoleSelectionScreenProps> = ({
         />
       </View>
 
-      <TouchableOpacity
-        style={[styles.continueButton, !selectedRole && styles.continueButtonDisabled]}
-        onPress={handleContinue}
+      <PrimaryButton
+        label="Continue"
+        fullWidth
         disabled={!selectedRole}
-      >
-        <Text style={styles.continueButtonText}>Continue</Text>
-      </TouchableOpacity>
+        onPress={handleContinue}
+        style={styles.continueButton}
+      />
     </SafeAreaView>
   );
 };
@@ -147,19 +148,6 @@ const styles = StyleSheet.create({
     lineHeight: 24,
   },
   continueButton: {
-    backgroundColor: theme.colors.primary.indigo,
-    borderRadius: theme.borderRadius.lg,
-    padding: theme.spacing.md,
     margin: theme.layout.screenPadding,
-    alignItems: 'center',
-  },
-  continueButtonDisabled: {
-    backgroundColor: theme.colors.neutral.gray,
-    opacity: 0.6,
-  },
-  continueButtonText: {
-    fontFamily: theme.typography.fontFamily.bodySemibold,
-    color: theme.colors.text.inverse,
-    fontSize: theme.typography.fontSize.lg,
   },
 });

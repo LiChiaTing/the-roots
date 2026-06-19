@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, FlatList, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../theme/theme';
 import { CalendarEventCard } from '../components/CalendarEventCard';
@@ -67,6 +68,7 @@ const factStyles = StyleSheet.create({
 // ─── Main Screen ─────────────────────────────────────────────────────────────
 export const JourneyScreen = () => {
   const navigation = useNavigation<any>();
+  const insets = useSafeAreaInsets();
   const [expandedStageId, setExpandedStageId] = useState<number | null>(null);
   const currentMonthEvents = getCurrentMonthEvents();
   const currentMonth = new Date().getMonth();
@@ -83,9 +85,13 @@ export const JourneyScreen = () => {
   );
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.scrollContent}
+      showsVerticalScrollIndicator={false}
+    >
       {/* Header */}
-      <View style={styles.header}>
+      <View style={[styles.header, { paddingTop: insets.top + theme.spacing.md }]}>
         <Text style={styles.title}>My Journey</Text>
         <Text style={styles.subtitle}>
           {completedQuests} / {totalQuests} quests completed
@@ -115,7 +121,7 @@ export const JourneyScreen = () => {
                     <Ionicons
                       name={stage.icon as any}
                       size={20}
-                      color={theme.colors.primary.indigo}
+                      color={theme.colors.semantic.success}
                     />
                   </View>
                   <View style={styles.stageMeta}>
@@ -228,6 +234,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: theme.colors.background.primary,
   },
+  scrollContent: {
+    paddingBottom: theme.spacing.xxl,
+  },
   header: {
     padding: theme.layout.screenPadding,
     paddingBottom: theme.spacing.lg,
@@ -300,7 +309,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: theme.colors.primary.lavenderLight,
+    backgroundColor: theme.colors.semantic.successBg,
     justifyContent: 'center',
     alignItems: 'center',
   },

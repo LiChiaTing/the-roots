@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../../theme/theme';
+import { PrimaryButton } from '../../components/PrimaryButton';
 
 // ZIP → State ranges (USPS primary ranges, offline and lightweight)
 type ZipRange = { start: number; end: number; state: string };
@@ -437,16 +438,13 @@ export const LocationSelectionScreen: React.FC<LocationSelectionScreenProps> = (
       </View>
 
       <View style={styles.stickyFooter}>
-        <TouchableOpacity
-          style={[
-            styles.continueButton,
-            !detectedState && styles.continueButtonDisabled,
-          ]}
-          onPress={handleContinue}
+        <PrimaryButton
+          label="Continue"
+          fullWidth
           disabled={!detectedState}
-        >
-          <Text style={styles.continueButtonText}>Continue</Text>
-        </TouchableOpacity>
+          onPress={handleContinue}
+          style={styles.continueButton}
+        />
       </View>
     </SafeAreaView>
   );
@@ -491,21 +489,7 @@ const styles = StyleSheet.create({
     paddingBottom: theme.spacing.xxl,
   },
   continueButton: {
-    backgroundColor: theme.colors.primary.indigo,
-    borderRadius: theme.borderRadius.lg,
-    paddingVertical: theme.spacing.md,
-    paddingHorizontal: theme.spacing.lg,
-    alignItems: 'center',
     flex: 1,
-  },
-  continueButtonDisabled: {
-    backgroundColor: theme.colors.neutral.gray,
-    opacity: 0.6,
-  },
-  continueButtonText: {
-    fontFamily: theme.typography.fontFamily.bodySemibold,
-    color: theme.colors.text.inverse,
-    fontSize: theme.typography.fontSize.lg,
   },
   inputGroup: {
     backgroundColor: theme.colors.background.secondary,

@@ -228,7 +228,7 @@ export const mockHomeCards: HomeCard[] = [
     id: 'hc-2',
     type: 'quest',
     title: 'Apply for SSN or ITIN',
-    subtitle: '3 steps remaining · Stage 1',
+    subtitle: 'Step 1 of 4 · Stage 1 · Phone & ID',
     urgency: 'high',
     actionTab: 'Journey',
     actionPayload: 'q1-ssn',

@@ -1,0 +1,50 @@
+[
+  {
+    "batch_id": "b-20260619-rentchart-v2",
+    "timestamp": "2026-06-19T21:48:00Z",
+    "comments": [
+      {"id": "c-1781904910120-cmu4", "comment": "我已經有設定一個新的 design style. 請去找檔案之後更新整個 style"},
+      {"id": "c-1781905043728-t9fl", "comment": "開頭區塊文字太多，要很簡潔直接告訴用戶這頁在講什麼、為什麼重要"},
+      {"id": "c-1781905182229-xp5b", "comment": "要有地方讓用戶直接輸入扣稅後的淨收入，看 30% 在哪，並即時影響上面的圖"},
+      {"id": "c-1781905350670-g52k", "comment": "Seattle–Bellevue area · by home size 這行文字被壓到，要調整"},
+      {"id": "c-1781905437208-99dq", "comment": "source 那一行應該跟資料顯示在同一個卡片上面"}
+    ],
+    "changes": [
+      {
+        "id": "ch-newstyle",
+        "in_response_to": ["c-1781904910120-cmu4"],
+        "anchor": "ch-newstyle",
+        "title": "改成新的暖色 design style",
+        "description": "整頁從舊的 lavender/indigo 換成新 design style：terracotta + sage + gold + cream 暖色系，字體改 Plus Jakarta Sans (標題) + Noto Sans (內文)，卡片、圓角、陰影都對齊 the-roots-new-design-style.html。"
+      },
+      {
+        "id": "ch-intro-concise",
+        "in_response_to": ["c-1781905043728-t9fl"],
+        "anchor": "ch-intro-concise",
+        "title": "開頭精簡成一句話",
+        "description": "把原本兩三句的開場濃縮成『Is this rent fair?』+ 一句『See what homes really cost here — so no one can overcharge you.』，一眼看懂這頁的核心與重要性。"
+      },
+      {
+        "id": "ch-income-input",
+        "in_response_to": ["c-1781905182229-xp5b"],
+        "anchor": "ch-income-input",
+        "title": "加入淨收入輸入框",
+        "description": "新增一個可直接打字的『扣稅後月淨收入』輸入框（搭配滑桿），輸入後即時算出 30% 可負擔額、移動綠色負擔線、並讓超出預算的房型 bar 變紅。"
+      },
+      {
+        "id": "ch-subtext-fix",
+        "in_response_to": ["c-1781905350670-g52k"],
+        "anchor": "ch-subtext-fix",
+        "title": "修好被壓到的地點文字",
+        "description": "把『Seattle–Bellevue area · by home size』從擠在標題下的小字，改成標題右側獨立的 📍 Seattle–Bellevue 標籤，不再被壓到。"
+      },
+      {
+        "id": "ch-source-incard",
+        "in_response_to": ["c-1781905437208-99dq"],
+        "anchor": "ch-source-incard",
+        "title": "Source 移進資料卡片內",
+        "description": "HUD 資料來源那行從卡片外面移進同一張圖表卡片底部，用一條細分隔線跟資料連在一起，讓『資料 + 出處』在視覺上是一體的。"
+      }
+    ]
+  }
+]

@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../theme/theme';
+import { PrimaryButton } from '../components/PrimaryButton';
 import {
   mockServices,
   filterServices,
@@ -204,10 +205,7 @@ function ServiceCard({ listing }: { listing: ServiceListing }) {
           <Text style={styles.provenanceText}>{verifiedLabel}</Text>
           <Ionicons name="open-outline" size={11} color={theme.colors.text.tertiary} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.callButton} onPress={handleCall}>
-          <Ionicons name="call-outline" size={15} color={theme.colors.text.inverse} />
-          <Text style={styles.callButtonText}>Call</Text>
-        </TouchableOpacity>
+        <PrimaryButton label="Call" icon="call-outline" compact onPress={handleCall} />
       </View>
     </View>
   );

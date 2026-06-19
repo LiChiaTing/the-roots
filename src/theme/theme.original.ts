@@ -14,15 +14,14 @@ export const theme = {
     xxxl: 64,
   },
 
-  // Border Radius — soft, clay-like (Style 3 暖陽軟石)
-  // Cards ~22–24px, buttons full pill, icon containers circular.
+  // Border Radius
   borderRadius: {
     none: 0,
-    sm: 8,
-    md: 12,
-    lg: 16,
-    xl: 22,
-    xxl: 28,
+    sm: 4,
+    md: 8,
+    lg: 12,
+    xl: 16,
+    xxl: 24,
     full: 9999,
   },
 
@@ -66,25 +65,28 @@ export const theme = {
     },
   },
 
-  // Shadows — Style 3 暖陽軟石 neumorphism.
-  // Dual-tone: light highlight (top-left, 晨光 #FFFDF6) + warm shadow
-  // (bottom-right, 沙影 #B9A887). Uses boxShadow (RN 0.81+ / web) so the
-  // embossed "soft clay" look renders. Surfaces must sit on sand to read.
+  // Shadows (indigo-tinted)
   shadows: {
-    // resting — list cards, avatars, tab bar
     sm: {
-      boxShadow:
-        '-5px -5px 12px rgba(255, 253, 246, 0.85), 5px 5px 13px rgba(185, 168, 135, 0.45)',
+      shadowColor: colors.shadow.medium,
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.2,
+      shadowRadius: 2,
+      elevation: 2,
     },
-    // raised — hero, progress cards, floating buttons
     md: {
-      boxShadow:
-        '-7px -7px 16px rgba(255, 253, 246, 0.9), 8px 8px 18px rgba(185, 168, 135, 0.5)',
+      shadowColor: colors.shadow.medium,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 4,
     },
-    // lifted — modals, prominent CTAs
     lg: {
-      boxShadow:
-        '-9px -9px 20px rgba(255, 253, 246, 0.95), 10px 10px 24px rgba(185, 168, 135, 0.55)',
+      shadowColor: colors.shadow.heavy,
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.3,
+      shadowRadius: 8,
+      elevation: 8,
     },
   },
 
@@ -168,24 +170,23 @@ export const theme = {
   components: {
     button: {
       height: 48,
-      borderRadius: 9999, // full pill (Style 3)
+      borderRadius: 12,
       paddingHorizontal: 24,
     },
     input: {
       height: 48,
-      borderRadius: 16,
+      borderRadius: 8,
       paddingHorizontal: 16,
       borderWidth: 1,
     },
     card: {
-      borderRadius: 22,
+      borderRadius: 12,
       padding: 16,
       marginVertical: 8,
     },
     tabBar: {
       height: 80,
-      borderTopWidth: 1,
-      borderTopColor: colors.border.dark,
+      borderTopWidth: 0,
       backgroundColor: colors.background.primary,
     },
   },

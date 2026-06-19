@@ -7,6 +7,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 import { theme } from '../../theme/theme';
+import { PrimaryButton } from '../../components/PrimaryButton';
 
 interface Language {
   code: string;
@@ -92,16 +93,13 @@ export const LanguageSelectionScreen: React.FC<LanguageSelectionScreenProps> = (
         </View>
       </View>
 
-      <TouchableOpacity
-        style={[
-          styles.continueButton,
-          !nativeLanguage && styles.continueButtonDisabled,
-        ]}
-        onPress={handleContinue}
+      <PrimaryButton
+        label="Get Started"
+        fullWidth
         disabled={!nativeLanguage}
-      >
-        <Text style={styles.continueButtonText}>Get Started</Text>
-      </TouchableOpacity>
+        onPress={handleContinue}
+        style={styles.continueButton}
+      />
     </SafeAreaView>
   );
 };
@@ -186,19 +184,6 @@ const styles = StyleSheet.create({
     color: theme.colors.primary.lavenderDark,
   },
   continueButton: {
-    backgroundColor: theme.colors.primary.indigo,
-    borderRadius: theme.borderRadius.lg,
-    padding: theme.spacing.md,
     margin: theme.layout.screenPadding,
-    alignItems: 'center',
-  },
-  continueButtonDisabled: {
-    backgroundColor: theme.colors.neutral.gray,
-    opacity: 0.6,
-  },
-  continueButtonText: {
-    fontFamily: theme.typography.fontFamily.bodySemibold,
-    color: theme.colors.text.inverse,
-    fontSize: theme.typography.fontSize.lg,
   },
 });

@@ -1,9 +1,15 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../theme/theme';
+
+// Wireframe mode: PNG tab icons replaced with simple line (outline) icons
+const TAB_ICONS = {
+  Home:    'home-outline' as const,
+  Journey: 'leaf-outline' as const,
+  Guide:   'compass-outline' as const,
+};
 
 import { HomeScreen } from '../screens/HomeScreen';
 import { ProfileScreen } from '../screens/ProfileScreen';
@@ -32,18 +38,7 @@ function HomeNavigator() {
       <HomeStack.Screen
         name="HomeMain"
         component={HomeScreen}
-        options={({ navigation }) => ({
-          title: 'Home',
-          headerRight: () => (
-            <TouchableOpacity
-              onPress={() => navigation.navigate('Profile')}
-              style={{ marginRight: 16 }}
-              hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-            >
-              <Ionicons name="person-circle-outline" size={28} color="#fff" />
-            </TouchableOpacity>
-          ),
-        })}
+        options={{ headerShown: false }}
       />
       <HomeStack.Screen
         name="Profile"
@@ -60,7 +55,7 @@ function JourneyNavigator() {
       <JourneyStack.Screen
         name="JourneyMain"
         component={JourneyScreen}
-        options={{ title: 'My Journey' }}
+        options={{ headerShown: false }}
       />
       <JourneyStack.Screen
         name="QuestDetail"
@@ -77,7 +72,7 @@ function GuideNavigator() {
       <GuideStack.Screen
         name="GuideMain"
         component={GuideScreen}
-        options={{ title: 'Guide' }}
+        options={{ headerShown: false }}
       />
       <GuideStack.Screen
         name="Services"
@@ -99,20 +94,16 @@ export const AppNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
-          let iconName: keyof typeof Ionicons.glyphMap;
-
-          if (route.name === 'Home') {
-            iconName = focused ? 'home' : 'home-outline';
-          } else if (route.name === 'Journey') {
-            iconName = focused ? 'leaf' : 'leaf-outline';
-          } else if (route.name === 'Guide') {
-            iconName = focused ? 'compass' : 'compass-outline';
-          } else {
-            iconName = 'help-outline';
-          }
-
-          return <Ionicons name={iconName} size={size} color={color} />;
+        tabBarIcon: ({ focused }) => {
+          const name = TAB_ICONS[route.name as keyof typeof TAB_ICONS];
+          if (!name) return null;
+          return (
+            <Ionicons
+              name={name}
+              size={26}
+              color={focused ? theme.colors.text.primary : theme.colors.text.tertiary}
+            />
+          );
         },
         tabBarActiveTintColor: theme.colors.primary.indigo,
         tabBarInactiveTintColor: theme.colors.text.secondary,
@@ -120,10 +111,17 @@ export const AppNavigator = () => {
           ...theme.components.tabBar,
           backgroundColor: theme.colors.background.primary,
           borderTopColor: theme.colors.border.light,
+          height: 76,
+          paddingTop: 12,
+          paddingBottom: 12,
+        },
+        tabBarItemStyle: {
+          justifyContent: 'center',
         },
         tabBarLabelStyle: {
           fontFamily: theme.typography.fontFamily.bodyMedium,
-          fontSize: theme.typography.fontSize.xs,
+          fontSize: 10,
+          marginTop: 2,
         },
         headerStyle: {
           backgroundColor: theme.colors.primary.indigo,

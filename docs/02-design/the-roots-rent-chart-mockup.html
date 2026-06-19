@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Roots — Rent Reality Check (mockup)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Noto+Sans:wght@400;500;600;700&display=swap');
+
+  :root {
+    --terra:#C1724F; --terra-light:#D4967A; --terra-dark:#9A5538;
+    --sage:#7A9A78; --sage-light:#A2B8A0; --sage-dark:#4E6E4C;
+    --gold:#D4A842; --gold-light:#E8C870; --gold-dark:#A87E1E;
+    --cream:#FDF8F0; --cream-2:#F5EDD8; --cream-3:#EDE0C4;
+    --ink:#2A1C0E; --ink-mid:#6B4F38; --ink-light:#9A7A68;
+    --border:#E8D8C4; --shadow:rgba(42,28,14,.12);
+    --over:#C85040; --over-bg:#FDF0EE;
+    --r:16px;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+  body {
+    font-family:'Noto Sans',sans-serif; color:var(--ink);
+    background:linear-gradient(160deg,#EDE0C4,#F0EBE0 45%,#F5EDD8);
+    min-height:100vh; display:flex; justify-content:center; padding:32px 16px;
+  }
+  h1,h2,h3,.dsp { font-family:'Plus Jakarta Sans',sans-serif; }
+
+  .phone {
+    width:390px; background:var(--cream); border-radius:40px;
+    box-shadow:0 30px 80px rgba(42,28,14,.22); overflow:hidden;
+    border:1px solid rgba(255,255,255,.6);
+  }
+  .scroll { height:760px; overflow-y:auto; padding-bottom:36px; }
+  .scroll::-webkit-scrollbar { width:0; }
+
+  /* ── header (illustrative band) ── */
+  .hero { position:relative; height:128px; overflow:hidden;
+    background:linear-gradient(135deg,var(--terra) 0%,var(--terra-dark) 55%,var(--sage-dark) 130%); }
+  .hero::after { content:""; position:absolute; inset:0;
+    background:radial-gradient(120% 80% at 80% -10%, rgba(232,200,112,.45), transparent 60%); }
+  .hero .nav { position:relative; z-index:2; display:flex; align-items:center; gap:11px; padding:16px 20px; }
+  .hero .back { width:34px;height:34px;border-radius:11px;background:rgba(255,255,255,.22);
+    border:1px solid rgba(255,255,255,.32); backdrop-filter:blur(6px);
+    display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px; }
+  .hero .badge { display:inline-flex; align-items:center; gap:5px;
+    background:rgba(255,255,255,.2); border:1px solid rgba(255,255,255,.32); backdrop-filter:blur(6px);
+    border-radius:999px; padding:4px 11px; font-size:11px; color:#fff; font-weight:600; }
+
+  /* ── concise intro ── */
+  .intro { padding:18px 22px 6px; margin-top:-30px; position:relative; z-index:3; }
+  .intro h1 { font-size:25px; font-weight:800; letter-spacing:-.5px; color:#fff; margin-bottom:5px;
+    text-shadow:0 1px 8px rgba(42,28,14,.35); }
+  .intro p { font-size:14px; color:var(--ink-mid); line-height:1.5; padding-top:8px; }
+  .intro p b { color:var(--ink); font-weight:600; }
+
+  /* ── card ── */
+  .card { background:#fff; border-radius:var(--r); margin:14px 20px 0;
+    box-shadow:0 2px 8px rgba(42,28,14,.08),0 1px 2px rgba(42,28,14,.04);
+    border:1px solid rgba(232,216,196,.6); padding:18px 18px 16px; }
+  .seclabel { font-size:10px; font-weight:600; letter-spacing:.5px; text-transform:uppercase;
+    color:var(--ink-light); }
+  .card-h { display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom:14px; }
+  .card-h h2 { font-size:16.5px; font-weight:700; }
+  .card-h .place { font-size:11.5px; color:var(--ink-mid); font-weight:500; white-space:nowrap; }
+
+  /* ── chart ── */
+  .chart { position:relative; height:196px; margin:4px 0 2px; }
+  .bars { position:absolute; left:36px; right:0; bottom:24px; top:6px; display:flex; align-items:flex-end; gap:9px; }
+  .barwrap { flex:1; display:flex; align-items:flex-end; justify-content:center; height:100%; }
+  .bar { width:100%; max-width:40px; border-radius:8px 8px 4px 4px; position:relative;
+    background:linear-gradient(180deg,var(--terra-light),var(--terra));
+    box-shadow:0 4px 10px rgba(193,114,79,.28); transition:height .5s cubic-bezier(.2,.8,.2,1); }
+  .bar.over { background:linear-gradient(180deg,#DD7A6E,var(--over)); box-shadow:0 4px 10px rgba(200,80,64,.28); }
+  .bar .val { position:absolute; top:-18px; left:50%; transform:translateX(-50%); font-size:11px; font-weight:700;
+    font-family:'Plus Jakarta Sans',sans-serif; white-space:nowrap; color:var(--ink); }
+  .xlabels { position:absolute; left:36px; right:0; bottom:0; display:flex; gap:9px; }
+  .xlabels span { flex:1; text-align:center; font-size:11px; color:var(--ink-mid); }
+  .yaxis { position:absolute; left:0; top:6px; bottom:24px; width:32px; }
+  .yaxis span { position:absolute; right:5px; font-size:9.5px; color:var(--ink-light); transform:translateY(-50%); }
+
+  .affline { position:absolute; left:36px; right:0; height:0; border-top:2px dashed var(--sage-dark); z-index:3;
+    transition:bottom .35s ease; }
+  .affline .tag { position:absolute; right:0; top:-9px; background:var(--sage-dark); color:#fff; font-size:9.5px;
+    font-weight:700; padding:2px 8px; border-radius:8px; white-space:nowrap; box-shadow:0 3px 8px rgba(78,110,76,.35); }
+
+  /* ── income input ── */
+  .income { background:var(--cream-2); border-radius:13px; padding:14px 15px; margin-top:16px; }
+  .income label { display:block; font-size:12px; font-weight:600; color:var(--ink-mid); margin-bottom:8px; }
+  .income .field { display:flex; align-items:center; background:#fff; border:1.5px solid var(--border);
+    border-radius:11px; padding:0 13px; }
+  .income .field:focus-within { border-color:var(--terra); }
+  .income .field .cur { color:var(--ink-light); font-size:17px; font-weight:600; }
+  .income .field input { border:0; background:transparent; font-family:'Plus Jakarta Sans',sans-serif;
+    font-size:19px; font-weight:700; color:var(--ink); padding:11px 6px; width:100%; outline:none; }
+  .income .field .per { color:var(--ink-light); font-size:12px; white-space:nowrap; }
+  input[type=range]{ -webkit-appearance:none; width:100%; height:5px; border-radius:5px; margin-top:12px;
+    background:linear-gradient(90deg,var(--terra),var(--gold)); outline:none; }
+  input[type=range]::-webkit-slider-thumb{ -webkit-appearance:none; width:22px;height:22px;border-radius:50%;
+    background:#fff;border:3px solid var(--terra);box-shadow:0 2px 8px rgba(193,114,79,.4);cursor:pointer; }
+  .afford-note { font-size:11.5px; color:var(--ink-mid); margin-top:11px; line-height:1.5; display:flex; gap:6px; }
+  .afford-note b { color:var(--sage-dark); }
+
+  /* ── source (in card) ── */
+  .source { display:flex; align-items:center; gap:6px; font-size:10.5px; color:var(--ink-light);
+    margin-top:14px; padding-top:12px; border-top:1px solid var(--border); }
+  .source b { color:var(--ink-mid); font-weight:600; }
+
+  /* ── verdict ── */
+  .vlabel { font-size:14.5px; font-weight:700; font-family:'Plus Jakarta Sans',sans-serif; margin-bottom:4px; }
+  .vsub { font-size:12px; color:var(--ink-mid); margin-bottom:13px; line-height:1.5; }
+  .vinput .field { display:flex; align-items:center; background:var(--cream-2); border:1.5px solid var(--border);
+    border-radius:12px; padding:0 14px; }
+  .vinput .field:focus-within { border-color:var(--terra); }
+  .vinput .field .cur { color:var(--ink-light); font-size:16px; }
+  .vinput .field input { border:0; background:transparent; font-family:'Plus Jakarta Sans',sans-serif;
+    font-size:18px; font-weight:700; color:var(--ink); padding:12px 6px; width:100%; outline:none; }
+  .seg { display:flex; gap:6px; margin-top:12px; }
+  .seg button { flex:1; border:1px solid var(--border); background:#fff; color:var(--ink-mid); font-size:12px;
+    font-weight:600; font-family:'Noto Sans',sans-serif; padding:8px 0; border-radius:10px; cursor:pointer; }
+  .seg button.active { background:var(--terra); color:#fff; border-color:var(--terra); }
+  .result { margin-top:15px; border-radius:13px; padding:13px 14px; display:none; align-items:flex-start; gap:11px; }
+  .result.show { display:flex; animation:pop .3s ease; }
+  @keyframes pop { from{opacity:0;transform:translateY(6px);} to{opacity:1;transform:none;} }
+  .result .ic { width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;
+    font-size:15px;flex-shrink:0;color:#fff; }
+  .result h3 { font-size:14px; margin-bottom:3px; }
+  .result p { font-size:12px; line-height:1.5; color:var(--ink-mid); }
+  .result.ok { background:#EEF4ED; } .result.ok .ic{background:var(--sage-dark);} .result.ok h3{color:var(--sage-dark);}
+  .result.warn { background:#FBF3DF; } .result.warn .ic{background:var(--gold-dark);} .result.warn h3{color:var(--gold-dark);}
+  .result.over { background:var(--over-bg); } .result.over .ic{background:var(--over);} .result.over h3{color:var(--over);}
+
+  .trust { background:var(--cream-2); margin:14px 20px 0; border-radius:13px; padding:13px 15px;
+    display:flex; gap:10px; align-items:flex-start; }
+  .trust .ic { font-size:16px; } .trust p { font-size:11.5px; color:var(--ink-mid); line-height:1.55; }
+</style>
+  <link rel="stylesheet" href="/lib/feedback.css">
+</head>
+<body>
+<div class="phone" data-cf-change="ch-newstyle">
+  <div class="scroll">
+
+    <div class="hero">
+      <div class="nav">
+        <div class="back">‹</div>
+        <span class="badge">🌱 Stage 1 · Secure Housing</span>
+      </div>
+    </div>
+
+    <!-- concise intro -->
+    <div class="intro" data-cf-change="ch-intro-concise">
+      <h1>Is this rent fair?</h1>
+      <p><b>See what homes really cost here</b> — so no one can overcharge you.</p>
+    </div>
+
+    <!-- CHART CARD (chart + income + source all together) -->
+    <div class="card">
+      <div class="card-h" data-cf-change="ch-subtext-fix">
+        <h2>Typical rent near you</h2>
+        <span class="place">📍 Seattle–Bellevue</span>
+      </div>
+
+      <div class="chart" id="chart">
+        <div class="yaxis" id="yaxis"></div>
+        <div class="bars" id="bars"></div>
+        <div class="affline" id="affline"><span class="tag">Your limit</span></div>
+        <div class="xlabels">
+          <span>Studio</span><span>1 bed</span><span>2 bed</span><span>3 bed</span><span>4 bed</span>
+        </div>
+      </div>
+
+      <!-- income input drives the chart -->
+      <div class="income" data-cf-change="ch-income-input">
+        <label>Your take-home pay <span style="font-weight:400;color:var(--ink-light)">(after taxes, per month)</span></label>
+        <div class="field">
+          <span class="cur">$</span>
+          <input type="text" inputmode="numeric" id="incomeInput" value="4,500" />
+          <span class="per">/ month</span>
+        </div>
+        <input type="range" id="incomeRange" min="1500" max="9000" step="100" value="4500" />
+        <div class="afford-note">
+          <span>💡</span>
+          <span>Keep rent at or below <b>30%</b> of that — <b>$<span id="affVal">1,350</span>/mo</b> for you. The green line shows your limit; bars above it stretch your budget.</span>
+        </div>
+      </div>
+
+      <!-- source now inside the same card -->
+      <div class="source" data-cf-change="ch-source-incard">
+        🏛️ Source: <b>HUD Fair Market Rents, FY2026</b> · updated yearly
+      </div>
+    </div>
+
+    <!-- VERDICT CARD -->
+    <div class="card">
+      <p class="vlabel">Got a quote? Check it.</p>
+      <p class="vsub">Enter the rent a landlord offered and we'll tell you how it compares.</p>
+      <div class="vinput">
+        <div class="field"><span class="cur">$</span><input type="text" inputmode="numeric" id="quote" placeholder="2,800" /></div>
+      </div>
+      <div class="seg" id="seg">
+        <button data-bd="0">Studio</button>
+        <button data-bd="1">1 bed</button>
+        <button data-bd="2" class="active">2 bed</button>
+        <button data-bd="3">3 bed</button>
+        <button data-bd="4">4 bed</button>
+      </div>
+      <div class="result" id="result">
+        <div class="ic" id="ric"></div>
+        <div><h3 id="rh"></h3><p id="rp"></p></div>
+      </div>
+    </div>
+
+    <div class="trust">
+      <span class="ic">🌱</span>
+      <p>A guide, not a limit. Rents vary by neighborhood and condition — use it to ask better questions, not to rule places out.</p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const RENT = [2074, 2146, 2501, 3272, 3847]; // HUD FY2026 Seattle–Bellevue
+  const LABELS = ['Studio','1 bed','2 bed','3 bed','4 bed'];
+  const MAX = 4200;
+  let selectedBd = 2;
+
+  const barsEl=document.getElementById('bars'), yaxisEl=document.getElementById('yaxis'), afflineEl=document.getElementById('affline');
+  const incInput=document.getElementById('incomeInput'), incRange=document.getElementById('incomeRange');
+
+  [0,1400,2800,4200].forEach(v=>{ const s=document.createElement('span');
+    s.textContent=v?'$'+(v/1000).toFixed(1)+'k':'$0'; s.style.bottom=(24+(v/MAX)*170)+'px'; yaxisEl.appendChild(s); });
+
+  function income(){ return parseInt((incInput.value||'0').replace(/[^0-9]/g,''))||0; }
+  function affordable(){ return Math.round(income()*0.30); }
+
+  function draw(){
+    const aff=affordable();
+    barsEl.innerHTML='';
+    RENT.forEach(v=>{ const w=document.createElement('div'); w.className='barwrap';
+      const b=document.createElement('div'); b.className='bar'+(v>aff?' over':'');
+      b.style.height=(v/MAX*100)+'%'; b.innerHTML='<span class="val">$'+v.toLocaleString()+'</span>';
+      w.appendChild(b); barsEl.appendChild(w); });
+    afflineEl.style.bottom=(24+Math.min(aff,MAX)/MAX*170)+'px';
+    document.getElementById('affVal').textContent=aff.toLocaleString();
+  }
+
+  function syncFromInput(){ incRange.value=Math.min(9000,Math.max(1500,income())); draw(); checkQuote(); }
+  incInput.addEventListener('input',syncFromInput);
+  incInput.addEventListener('blur',()=>{ incInput.value=income().toLocaleString(); });
+  incRange.addEventListener('input',()=>{ incInput.value=(+incRange.value).toLocaleString(); draw(); checkQuote(); });
+
+  document.querySelectorAll('#seg button').forEach(b=>b.addEventListener('click',()=>{
+    document.querySelectorAll('#seg button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active'); selectedBd=+b.dataset.bd; checkQuote(); }));
+  document.getElementById('quote').addEventListener('input',checkQuote);
+
+  function checkQuote(){
+    const q=parseInt((document.getElementById('quote').value||'').replace(/[^0-9]/g,''))||0;
+    const res=document.getElementById('result');
+    if(!q){ res.className='result'; return; }
+    const fair=RENT[selectedBd], diff=Math.round((q-fair)/fair*100), aff=affordable();
+    let cls,ic,h,p;
+    if(diff>15){ cls='over'; ic='!'; h='About '+diff+'% above typical';
+      p='A '+LABELS[selectedBd]+' here usually runs ~$'+fair.toLocaleString()+'. Ask what justifies the higher price, or keep looking.'; }
+    else if(diff<-8){ cls='ok'; ic='✓'; h='A good deal — '+Math.abs(diff)+'% below typical';
+      p='Below the ~$'+fair.toLocaleString()+' norm for a '+LABELS[selectedBd]+'. Just double-check the lease terms and condition.'; }
+    else { cls='warn'; ic='≈'; h='Right around the fair price';
+      p='Typical for a '+LABELS[selectedBd]+' here is ~$'+fair.toLocaleString()+'. This quote is in the normal range.'; }
+    if(q>aff && cls!=='over'){ p+=' Note: it\'s above your 30% budget of $'+aff.toLocaleString()+'/mo.'; }
+    res.className='result show '+cls;
+    document.getElementById('ric').textContent=ic;
+    document.getElementById('rh').textContent=h;
+    document.getElementById('rp').textContent=p;
+  }
+
+  draw();
+</script>
+  <script src="/lib/feedback.js" defer></script>
+</body>
+</html>

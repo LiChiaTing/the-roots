@@ -29,7 +29,7 @@ export const FEATURED_BANKS: BankInfo[] = [
     shortName: 'Chase',
     accentColor: '#117ACA',
     crawlUrl: 'https://www.chase.com/personal/banking/checking/total-checking',
-    monthlyFee: '$12/month',
+    monthlyFee: '$15/month',
     feeWaivers: [
       'Direct deposit of $500+ per month',
       'Daily balance of $1,500+',
@@ -62,11 +62,11 @@ export const FEATURED_BANKS: BankInfo[] = [
     crawlUrl: 'https://www.bankofamerica.com/deposits/checking/checking-accounts/',
     monthlyFee: '$12/month',
     feeWaivers: [
-      'Qualifying direct deposit of any amount',
+      'Qualifying direct deposit of $250 or more',
       'Minimum daily balance of $1,500',
       'Enrolled in Preferred Rewards program',
     ],
-    minimumDeposit: '$25',
+    minimumDeposit: '$100',
     acceptsITIN: true,
     itinNote: 'Officially accepts ITIN for account opening at all branches.',
     requiredDocs: [
@@ -91,11 +91,11 @@ export const FEATURED_BANKS: BankInfo[] = [
     shortName: 'Wells Fargo',
     accentColor: '#D71E28',
     crawlUrl: 'https://www.wellsfargo.com/checking/everyday-checking/',
-    monthlyFee: '$10/month',
+    monthlyFee: '$15/month',
     feeWaivers: [
-      'Daily balance of $500+',
-      '10 or more debit card purchases per month',
-      'Linked Wells Fargo Campus ATM or Campus Debit Card',
+      'Qualifying direct deposits of $500 or more per month',
+      'Minimum daily balance of $1,500',
+      'Combined $5,000+ in linked Wells Fargo deposit and investment accounts',
     ],
     minimumDeposit: '$25',
     acceptsITIN: true,
@@ -109,7 +109,7 @@ export const FEATURED_BANKS: BankInfo[] = [
     languages: ['English', 'Spanish', 'Chinese', 'Vietnamese', 'Korean', 'Filipino (Tagalog)'],
     immigrantNote: 'Trusted in immigrant communities for decades. Easiest monthly fee to waive.',
     pros: [
-      'Lowest fee to waive (just $500 balance or 10 debit uses)',
+      'Fee waived with $500/month direct deposit or $1,500 daily balance',
       'Deeply embedded in immigrant communities',
       'Bilingual staff widely available',
       'Good branch coverage in West Coast cities',
