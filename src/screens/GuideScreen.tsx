@@ -5,6 +5,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../theme/theme';
 import { PrimaryButton } from '../components/PrimaryButton';
+import { mockSavedProviders } from '../data/mockServices';
+import { SavedProvider } from '../types';
 
 const doctors = [
   {
@@ -117,11 +119,42 @@ function ServicesPanel({ navigation }: { navigation: any }) {
   );
 }
 
+function SavedProviderRow({ provider }: { provider: SavedProvider }) {
+  const icon: keyof typeof Ionicons.glyphMap =
+    provider.type === 'doctor' ? 'person-outline'
+    : provider.type === 'clinic' ? 'medkit-outline'
+    : 'business-outline';
+
+  return (
+    <View style={styles.savedRow}>
+      <View style={styles.savedIcon}>
+        <Ionicons name={icon} size={18} color={theme.colors.primary.lavender} />
+      </View>
+      <View style={styles.savedContent}>
+        <Text style={styles.savedName}>{provider.name}</Text>
+        {provider.phone ? <Text style={styles.savedMeta}>{provider.phone}</Text> : null}
+      </View>
+      <Text style={styles.savedDate}>
+        Saved {new Date(provider.savedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+      </Text>
+    </View>
+  );
+}
+
 function DoctorsPanel({ navigation }: { navigation: any }) {
   return (
     <ScrollView style={styles.scrollContainer} contentContainerStyle={styles.content}>
       <Text style={styles.title}>Health Navigator</Text>
       <Text style={styles.subtitle}>Language-friendly doctors near you</Text>
+
+      {mockSavedProviders.length > 0 && (
+        <>
+          <Text style={[styles.sectionTitle, { marginBottom: theme.spacing.md }]}>Saved</Text>
+          {mockSavedProviders.map((provider) => (
+            <SavedProviderRow key={provider.id} provider={provider} />
+          ))}
+        </>
+      )}
 
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionTitle}>Nearby Doctors</Text>
@@ -271,6 +304,43 @@ const styles = StyleSheet.create({
     padding: theme.spacing.md,
     marginBottom: theme.spacing.md,
     ...theme.shadows.sm,
+  },
+  savedRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: theme.spacing.sm,
+    backgroundColor: theme.colors.background.secondary,
+    borderRadius: theme.borderRadius.lg,
+    padding: theme.spacing.md,
+    marginBottom: theme.spacing.md,
+    ...theme.shadows.sm,
+  },
+  savedIcon: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: theme.colors.semantic.infoBg,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  savedContent: {
+    flex: 1,
+  },
+  savedName: {
+    fontFamily: theme.typography.fontFamily.bodySemibold,
+    fontSize: theme.typography.fontSize.sm,
+    color: theme.colors.text.primary,
+  },
+  savedMeta: {
+    fontFamily: theme.typography.fontFamily.body,
+    fontSize: theme.typography.fontSize.xs,
+    color: theme.colors.text.secondary,
+    marginTop: 2,
+  },
+  savedDate: {
+    fontFamily: theme.typography.fontFamily.body,
+    fontSize: theme.typography.fontSize.xs,
+    color: theme.colors.text.tertiary,
   },
   cardHeader: {
     flexDirection: 'row',

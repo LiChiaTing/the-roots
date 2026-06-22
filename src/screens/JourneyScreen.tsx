@@ -94,7 +94,9 @@ export const JourneyScreen = () => {
       <View style={[styles.header, { paddingTop: insets.top + theme.spacing.md }]}>
         <Text style={styles.title}>My Journey</Text>
         <Text style={styles.subtitle}>
-          {completedQuests} / {totalQuests} quests completed
+          {completedQuests === 0
+            ? `${totalQuests} quests across ${stages.length} stages — let's begin`
+            : `${completedQuests} of ${totalQuests} done — keep growing`}
         </Text>
       </View>
 
@@ -139,7 +141,9 @@ export const JourneyScreen = () => {
                       />
                     </View>
                     <Text style={styles.progressLabel}>
-                      {doneCount}/{stageQuests.length} done
+                      {doneCount === 0
+                        ? 'Ready to start'
+                        : `${doneCount} of ${stageQuests.length} done`}
                     </Text>
                   </View>
                   <Ionicons

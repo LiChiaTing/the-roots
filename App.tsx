@@ -16,7 +16,6 @@ import {
 } from '@expo-google-fonts/plus-jakarta-sans';
 import { AppNavigator } from './src/navigation/AppNavigator';
 import { OnboardingNavigator } from './src/navigation/OnboardingNavigator';
-import { WelcomeScreen } from './src/screens/WelcomeScreen';
 import { GlassKitDemo } from './src/screens/GlassKitDemo';
 
 // ⬇️ PREVIEW SWITCH — set to false to return to the real app.
@@ -24,7 +23,6 @@ import { GlassKitDemo } from './src/screens/GlassKitDemo';
 const PREVIEW_GLASS_KIT = false;
 
 export default function App() {
-  const [showWelcome, setShowWelcome] = useState(true);
   const [isOnboardingCompleted, setIsOnboardingCompleted] = useState<boolean | null>(null);
   const [userData, setUserData] = useState<{
     state: string;
@@ -81,15 +79,6 @@ export default function App() {
     return (
       <>
         <GlassKitDemo />
-        <StatusBar style="dark" backgroundColor="transparent" translucent />
-      </>
-    );
-  }
-
-  if (showWelcome) {
-    return (
-      <>
-        <WelcomeScreen onFinish={() => setShowWelcome(false)} />
         <StatusBar style="dark" backgroundColor="transparent" translucent />
       </>
     );
